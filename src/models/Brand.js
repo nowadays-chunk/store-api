@@ -27,4 +27,11 @@ const Brand = sequelize.define('Brand', {
     timestamps: true
 });
 
+Brand.associate = (models) => {
+    Brand.hasMany(models.Product, {
+        foreignKey: 'brandId',
+        as: 'products'
+    });
+};
+
 module.exports = Brand;

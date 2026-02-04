@@ -8,17 +8,24 @@ const StockMovement = sequelize.define('StockMovement', {
         autoIncrement: true
     },
     productId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         references: {
-            model: 'products',
+            model: 'Products',
+            key: 'id'
+        }
+    },
+    variantId: {
+        type: DataTypes.UUID,
+        references: {
+            model: 'ProductVariants',
             key: 'id'
         }
     },
     warehouseId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         references: {
-            model: 'warehouses',
+            model: 'Warehouses',
             key: 'id'
         }
     },
@@ -40,23 +47,9 @@ const StockMovement = sequelize.define('StockMovement', {
         type: DataTypes.INTEGER
     },
     orderId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         references: {
-            model: 'orders',
-            key: 'id'
-        }
-    },
-    fromWarehouseId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: 'warehouses',
-            key: 'id'
-        }
-    },
-    toWarehouseId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: 'warehouses',
+            model: 'Orders',
             key: 'id'
         }
     },
@@ -64,9 +57,9 @@ const StockMovement = sequelize.define('StockMovement', {
         type: DataTypes.TEXT
     },
     userId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         references: {
-            model: 'users',
+            model: 'Users',
             key: 'id'
         }
     }
@@ -74,5 +67,13 @@ const StockMovement = sequelize.define('StockMovement', {
     tableName: 'stock_movements',
     timestamps: true
 });
+
+StockMovement.associate = (models) => {
+    StockMovement.belongsTo(models.Product, { foreignKey: 'productId', as: 'product' });
+    StockMovement.belongsTo(models.ProductVariant, { foreignKey: 'variantId', as: 'variant' });
+    StockMovement.belongsTo(models.Warehouse, { foreignKey: 'warehouseId', as: 'warehouse' });
+    StockMovement.belongsTo(models.Order, { foreignKey: 'orderId', as: 'order' });
+    StockMovement.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+};
 
 module.exports = StockMovement;

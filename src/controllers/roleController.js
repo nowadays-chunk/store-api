@@ -72,3 +72,21 @@ exports.getUsersByRole = async (req, res, next) => {
         next(error);
     }
 };
+
+// Auto-generated stub functions
+exports.listRoles = async (req, res, next) => {
+    try {
+        res.json({ message: 'listRoles endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.removePermission = async (req, res, next) => {
+    try {
+        res.json({ message: 'removePermission endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+

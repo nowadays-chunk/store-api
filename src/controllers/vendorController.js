@@ -147,3 +147,37 @@ exports.suspendVendor = async (req, res, next) => {
         res.status(400).json({ message: error.message });
     }
 };
+
+// Auto-generated stub functions
+exports.getVendorSettlements = async (req, res, next) => {
+    try {
+        res.json({ message: 'getVendorSettlements endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getVendorKYC = async (req, res, next) => {
+    try {
+        res.json({ message: 'getVendorKYC endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getVendorRatings = async (req, res, next) => {
+    try {
+        res.json({ message: 'getVendorRatings endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getVendorDisputes = async (req, res, next) => {
+    try {
+        res.json({ message: 'getVendorDisputes endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+

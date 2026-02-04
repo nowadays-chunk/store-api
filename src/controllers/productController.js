@@ -1,3 +1,4 @@
+const { Product, Category, Brand, ProductVariant, Inventory, Warehouse, sequelize } = require('../models');
 const productService = require('../services/productService');
 
 exports.getAllProducts = async (req, res, next) => {
@@ -37,20 +38,21 @@ exports.getProductBySlug = async (req, res, next) => {
 };
 
 exports.createProduct = async (req, res, next) => {
-    const t = await require('../models').sequelize.transaction();
+    const t = await sequelize.transaction();
     try {
         const { categoryId, brandId, ...otherData } = req.body;
 
         const payload = {
             ...otherData,
             categoryId: categoryId === '' ? null : categoryId,
-            brandId: brandId === '' ? null : brandId
+            brandId: brandId === '' ? null : brandId,
+            // Ensure price is set if it's missing but basePrice exists (common mismatch)
+            price: otherData.price !== undefined ? otherData.price : (otherData.basePrice || 0)
         };
 
         const product = await Product.create(payload, { transaction: t });
 
         // Create default variant
-        const { ProductVariant, Inventory, Warehouse } = require('../models');
         const variant = await ProductVariant.create({
             productId: product.id,
             name: 'Default',
@@ -262,9 +264,17 @@ exports.createVariant = async (req, res, next) => {
         res.status(400).json({ message: error.message });
     }
 };
+exports.updateVariant = async (req, res, next) => {
+    try {
+        const variant = await variantService.updateVariant(req.params.id, req.body);
+        res.json(variant);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
 exports.deleteVariant = async (req, res, next) => {
     try {
-        await variantService.deleteVariant(req.params.variantId);
+        await variantService.deleteVariant(req.params.id);
         res.json({ message: 'Variant deleted' });
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -272,7 +282,7 @@ exports.deleteVariant = async (req, res, next) => {
 };
 exports.updateVariantSKU = async (req, res, next) => {
     try {
-        const variant = await variantService.updateVariant(req.params.variantId, { sku: req.body.sku });
+        const variant = await variantService.updateVariant(req.params.id, { sku: req.body.sku });
         res.json(variant);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -280,7 +290,7 @@ exports.updateVariantSKU = async (req, res, next) => {
 };
 exports.updateVariantBarcode = async (req, res, next) => {
     try {
-        const variant = await variantService.updateVariant(req.params.variantId, { barcode: req.body.barcode });
+        const variant = await variantService.updateVariant(req.params.id, { barcode: req.body.barcode });
         res.json(variant);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -288,7 +298,7 @@ exports.updateVariantBarcode = async (req, res, next) => {
 };
 exports.updateVariantPrice = async (req, res, next) => {
     try {
-        const variant = await variantService.updateVariant(req.params.variantId, { price: req.body.price });
+        const variant = await variantService.updateVariant(req.params.id, { price: req.body.price });
         res.json(variant);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -296,7 +306,7 @@ exports.updateVariantPrice = async (req, res, next) => {
 };
 exports.updateVariantCost = async (req, res, next) => {
     try {
-        const variant = await variantService.updateVariant(req.params.variantId, { cost: req.body.cost });
+        const variant = await variantService.updateVariant(req.params.id, { cost: req.body.cost });
         res.json(variant);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -304,7 +314,7 @@ exports.updateVariantCost = async (req, res, next) => {
 };
 exports.updateVariantWeight = async (req, res, next) => {
     try {
-        const variant = await variantService.updateVariant(req.params.variantId, { weight: req.body.weight });
+        const variant = await variantService.updateVariant(req.params.id, { weight: req.body.weight });
         res.json(variant);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -312,7 +322,7 @@ exports.updateVariantWeight = async (req, res, next) => {
 };
 exports.updateVariantDimensions = async (req, res, next) => {
     try {
-        const variant = await variantService.updateVariant(req.params.variantId, { dimensions: req.body.dimensions });
+        const variant = await variantService.updateVariant(req.params.id, { dimensions: req.body.dimensions });
         res.json(variant);
     } catch (error) {
         res.status(400).json({ message: error.message });

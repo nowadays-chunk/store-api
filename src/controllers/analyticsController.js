@@ -1,44 +1,101 @@
+const db = require('../models');
+const AnalyticsEvent = db.AnalyticsEvent;
+
 const analyticsController = {
-    getSalesAnalytics: async (req, res) => {
+    trackEvent: async (req, res, next) => {
+        try {
+            const { eventName, category, properties, sessionId, deviceInfo } = req.body;
+
+            // Async fire and forget usually, but here we wait to confirm save
+            await AnalyticsEvent.create({
+                eventName,
+                category,
+                properties,
+                sessionId,
+                deviceInfo,
+                userId: req.user ? req.user.id : null
+            });
+
+            res.status(201).json({ success: true, message: 'Event tracked' });
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    getEvents: async (req, res, next) => {
+        try {
+            // Admin only usually
+            const events = await AnalyticsEvent.findAll({
+                limit: 100,
+                order: [['createdAt', 'DESC']]
+            });
+            res.json({ success: true, events });
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    getSessionAnalytics: async (req, res, next) => {
+        // Aggregate logic mock
         res.json({
-            totalSales: 50000,
-            totalOrders: 150,
-            averageOrderValue: 333.33,
-            period: req.query.period || '30d'
+            success: true,
+            stats: {
+                activeSessions: 42,
+                avgDuration: '5m 30s'
+            }
         });
     },
 
-    getCustomerAnalytics: async (req, res) => {
+    getProductAnalytics: async (req, res, next) => {
         res.json({
-            totalCustomers: 500,
-            newCustomers: 50,
-            returningCustomers: 450,
-            period: req.query.period || '30d'
+            success: true,
+            stats: {
+                mostViewed: [],
+                conversionRate: '2.5%'
+            }
         });
     },
 
-    getProductAnalytics: async (req, res) => {
+    getSalesAnalytics: async (req, res, next) => {
         res.json({
-            topProducts: [],
-            totalViews: 10000,
-            period: req.query.period || '30d'
+            success: true,
+            stats: {
+                totalRevenue: 50000,
+                orders: 150,
+                averageOrderValue: 333
+            }
         });
     },
 
-    getConversionAnalytics: async (req, res) => {
+    getCustomerAnalytics: async (req, res, next) => {
         res.json({
-            conversionRate: 2.5,
-            cartAbandonmentRate: 68.5,
-            period: req.query.period || '30d'
+            success: true,
+            stats: {
+                totalCustomers: 1200,
+                newCustomers: 50,
+                returningCustomers: 1150
+            }
         });
     },
 
-    getTrafficAnalytics: async (req, res) => {
+    getConversionAnalytics: async (req, res, next) => {
         res.json({
-            totalVisits: 25000,
-            uniqueVisitors: 15000,
-            bounceRate: 45.2,
-            period: req.query.period || '30d'
+            success: true,
+            stats: {
+                cartAbandonmentRate: '65%',
+                checkoutConversionRate: '35%'
+            }
+        });
+    },
+
+    getTrafficAnalytics: async (req, res, next) => {
+        res.json({
+            success: true,
+            stats: {
+                totalVisits: 10000,
+                uniqueVisitors: 8500,
+                bounceRate: '40%'
+            }
         });
     }
 };

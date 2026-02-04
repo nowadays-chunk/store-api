@@ -76,6 +76,60 @@ const integrationController = {
 
     syncIntegration: async (req, res) => {
         res.json({ message: 'Integration synced' });
+    },
+
+    // getETLImports
+    getETLImports: async (req, res, next) => {
+        try {
+            res.json({ message: 'getETLImports endpoint', data: {} });
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    // getETLExports
+    getETLExports: async (req, res, next) => {
+        try {
+            res.json({ message: 'getETLExports endpoint', data: {} });
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    // getIntegrationConfig
+    getIntegrationConfig: async (req, res, next) => {
+        try {
+            res.json({ message: 'getIntegrationConfig endpoint', data: {} });
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    // runSync
+    runSync: async (req, res, next) => {
+        try {
+            res.json({ message: 'runSync endpoint', data: {} });
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    // getSyncStatus
+    getSyncStatus: async (req, res, next) => {
+        try {
+            res.json({ message: 'getSyncStatus endpoint', data: {} });
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    // getMappings
+    getMappings: async (req, res, next) => {
+        try {
+            res.json({ message: 'getMappings endpoint', data: {} });
+        } catch (error) {
+            next(error);
+        }
     }
 };
 

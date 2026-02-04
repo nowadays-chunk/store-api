@@ -3,7 +3,7 @@ const fs = require('fs');
 
 async function generateSchema() {
     try {
-        let schemaSql = "-- Full SQL Schema for Moroccan Store\n";
+        let schemaSql = "-- Full SQL Schema for Store DB\n";
         schemaSql += "SET FOREIGN_KEY_CHECKS = 0;\n\n";
 
         // Mock query execution to capture SQL

@@ -37,34 +37,15 @@ const Order = sequelize.define('Order', {
     trackingNumber: DataTypes.STRING,
     notes: DataTypes.TEXT
 }, {
+    tableName: 'orders',
     timestamps: true
 });
 
-const OrderItem = sequelize.define('OrderItem', {
-    id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        primaryKey: true
-    },
-    orderId: {
-        type: DataTypes.UUID,
-        references: {
-            model: 'Orders',
-            key: 'id'
-        }
-    },
-    productId: {
-        type: DataTypes.UUID,
-        references: {
-            model: 'Products',
-            key: 'id'
-        }
-    },
-    quantity: DataTypes.INTEGER,
-    price: DataTypes.DECIMAL(10, 2),
-    productName: DataTypes.STRING
-}, {
-    timestamps: true
-});
+Order.associate = (models) => {
+    Order.hasMany(models.OrderItem, { foreignKey: 'orderId', as: 'items' });
+    Order.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+    Order.hasOne(models.Payment, { foreignKey: 'orderId', as: 'payment' });
+    Order.hasOne(models.Shipment, { foreignKey: 'orderId', as: 'shipment' });
+};
 
-module.exports = { Order, OrderItem };
+module.exports = Order;

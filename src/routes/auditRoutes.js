@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const recordController = require('../controllers/recordController'); // Reusing controller
+const auditController = require('../controllers/auditController');
 
-router.get('/logs', recordController.getGlobalAudit);
-router.get('/logs/export', recordController.exportAudit);
-router.get('/entities/:entity', recordController.getEntityAudit);
-router.get('/users/:id', recordController.getUserAudit);
-router.get('/changes', recordController.getChangeHistory);
-router.post('/annotations', recordController.annotateAudit);
-router.get('/retention', recordController.getRetentionPolicy);
-router.put('/retention', recordController.updateRetentionPolicy);
-router.post('/archive', recordController.archiveAudit);
-router.post('/purge', recordController.purgeAudit);
-router.get('/integrity', recordController.checkIntegrity);
+router.get('/logs', auditController.getGlobalAudit);
+router.get('/logs/export', auditController.exportAudit);
+router.get('/entities/:entity', auditController.getEntityAudit);
+router.get('/users/:id', auditController.getUserAudit);
+router.get('/changes', auditController.getChangeHistory);
+router.post('/annotations', auditController.annotateAudit);
+router.get('/retention', auditController.getRetentionPolicy);
+router.put('/retention', auditController.updateRetentionPolicy);
+router.post('/archive', auditController.archiveAudit);
+router.post('/purge', auditController.purgeAudit);
+router.get('/integrity', auditController.checkIntegrity);
 
 module.exports = router;

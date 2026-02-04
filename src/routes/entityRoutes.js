@@ -2,41 +2,41 @@ const express = require('express');
 const router = express.Router();
 const entityController = require('../controllers/entityController');
 
-router.get('/entities', entityController.getEntities);
-router.post('/entities', entityController.createEntity);
-router.get('/entities/:id', entityController.getEntityById);
-router.put('/entities/:id', entityController.updateEntity);
-router.delete('/entities/:id', entityController.deleteEntity);
-router.post('/entities/:id/clone', entityController.cloneEntity);
-router.put('/entities/:id/publish', entityController.publishEntity);
-router.put('/entities/:id/unpublish', entityController.unpublishEntity);
-router.post('/entities/:id/migrate', entityController.runMigration);
+router.get('/', entityController.getEntities);
+router.post('/', entityController.createEntity);
+router.get('/:id', entityController.getEntityById);
+router.put('/:id', entityController.updateEntity);
+router.delete('/:id', entityController.deleteEntity);
+router.post('/:id/clone', entityController.cloneEntity);
+router.put('/:id/publish', entityController.publishEntity);
+router.put('/:id/unpublish', entityController.unpublishEntity);
+router.post('/:id/migrate', entityController.runMigration);
 
-router.get('/entities/:id/fields', entityController.getFields);
-router.post('/entities/:id/fields', entityController.createField);
-router.put('/entities/:id/fields/:fieldId', entityController.updateField);
-router.delete('/entities/:id/fields/:fieldId', entityController.deleteField);
-router.put('/entities/:id/fields/:fieldId/reorder', entityController.reorderFields);
+router.get('/:id/fields', entityController.getFields);
+router.post('/:id/fields', entityController.createField);
+router.put('/:id/fields/:fieldId', entityController.updateField);
+router.delete('/:id/fields/:fieldId', entityController.deleteField);
+router.put('/:id/fields/:fieldId/reorder', entityController.reorderFields);
 
-router.get('/entities/:id/relations', entityController.getRelations);
-router.post('/entities/:id/relations', entityController.createRelation);
-router.delete('/entities/:id/relations/:relId', entityController.deleteRelation);
+router.get('/:id/relations', entityController.getRelations);
+router.post('/:id/relations', entityController.createRelation);
+router.delete('/:id/relations/:relId', entityController.deleteRelation);
 
-router.get('/entities/:id/indexes', entityController.getIndexes);
-router.post('/entities/:id/indexes', entityController.createIndex);
-router.delete('/entities/:id/indexes/:indexId', entityController.deleteIndex);
+router.get('/:id/indexes', entityController.getIndexes);
+router.post('/:id/indexes', entityController.createIndex);
+router.delete('/:id/indexes/:indexId', entityController.deleteIndex);
 
-router.get('/entities/:id/permissions', entityController.getPermissions);
-router.put('/entities/:id/permissions', entityController.updatePermissions);
+router.get('/:id/permissions', entityController.getPermissions);
+router.put('/:id/permissions', entityController.updatePermissions);
 
-router.get('/entities/:id/forms', entityController.getForms);
-router.post('/entities/:id/forms', entityController.createForm);
-router.put('/entities/:id/forms/:formId', entityController.updateForm);
-router.delete('/entities/:id/forms/:formId', entityController.deleteForm);
+router.get('/:id/forms', entityController.getForms);
+router.post('/:id/forms', entityController.createForm);
+router.put('/:id/forms/:formId', entityController.updateForm);
+router.delete('/:id/forms/:formId', entityController.deleteForm);
 
-router.get('/entities/:id/views', entityController.getViews);
-router.post('/entities/:id/views', entityController.createView);
-router.put('/entities/:id/views/:viewId', entityController.updateView);
-router.delete('/entities/:id/views/:viewId', entityController.deleteView);
+router.get('/:id/views', entityController.getViews);
+router.post('/:id/views', entityController.createView);
+router.put('/:id/views/:viewId', entityController.updateView);
+router.delete('/:id/views/:viewId', entityController.deleteView);
 
 module.exports = router;

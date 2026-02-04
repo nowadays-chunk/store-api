@@ -3,7 +3,12 @@ const { Op } = require('sequelize');
 
 class ProductService {
     async getAllProducts(filters = {}) {
-        const { page = 1, limit = 20, search, categoryId, status, minPrice, maxPrice } = filters;
+        let { page = 1, limit = 20, search, categoryId, status, minPrice, maxPrice } = filters;
+
+        // Ensure integers
+        page = parseInt(page, 10) || 1;
+        limit = parseInt(limit, 10) || 20;
+
         const offset = (page - 1) * limit;
 
         const where = {};

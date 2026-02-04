@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const analyticsController = require('../controllers/analyticsController');
+const webhookController = require('../controllers/webhookController');
 
-router.post('/inventory', analyticsController.inventoryWebhook);
+router.post('/inventory', webhookController.inventoryWebhook);
 
 module.exports = router;

@@ -89,3 +89,29 @@ exports.cancelShipment = async (req, res, next) => {
         res.status(400).json({ message: error.message });
     }
 };
+
+// Auto-generated stub functions
+exports.getRates = async (req, res, next) => {
+    try {
+        res.json({ message: 'getRates endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.createLabel = async (req, res, next) => {
+    try {
+        res.json({ message: 'createLabel endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getLabel = async (req, res, next) => {
+    try {
+        res.json({ message: 'getLabel endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+

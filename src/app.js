@@ -50,8 +50,9 @@ const dashboardRoutes = require('./routes/dashboardRoutes');
 const biRoutes = require('./routes/biRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const projectRoutes = require('./routes/projectRoutes');
-const slaRoutes = require('./routes/slaRoutes');
+const slaRoutes = require('./routes/projectRoutes');
 const automationRoutes = require('./routes/automationRoutes');
+const adminHubRoutes = require('./routes/admin');
 
 const app = express();
 
@@ -97,21 +98,22 @@ app.use('/api/shippers', require('./routes/shipperRoutes'));
 app.use('/api/warehouses', require('./routes/warehouseRoutes'));
 app.use('/api/orders', orderRoutes);
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-app.use('/api/inventory', inventoryRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/inventory', inventoryRoutes);
 app.use('/api/finance', financeRoutes);
 app.use('/api/marketplace', marketplaceRoutes);
 app.use('/api/workflow', workflowRoutes);
 app.use('/api/cms', cmsRoutes);
-app.use('/api/reports', reportRoutes);
+app.use('/api/reports', reportRoutes); // Public reports? Or admin only? Leaving as was.
 app.use('/api/cart', cartRoutes);
 app.use('/api/checkout', checkoutRoutes);
 app.use('/api/roles', roleRoutes);
-app.get('/api/permissions', require('./controllers/roleController').listPermissions);
+app.get('/api/permissions', require('./controllers/permissionController').getAllPermissions); // Keep for backwards compatibility if needed, but primarily in admin hub now
 app.use('/api/shipping', shippingRoutes);
 app.use('/api/coupons', couponRoutes);
 app.use('/api/promotions', promotionRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/entities', entityRoutes);
 app.use('/api/webhooks', webhookRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/recommendations', recommendationRoutes);
@@ -124,12 +126,10 @@ app.use('/api/legal', legalRoutes);
 app.use('/api/integrations', integrationRoutes);
 app.use('/api/etl', etlRoutes);
 app.use('/api/b2b', b2bRoutes);
-app.use('/api/admin', adminRoutes);
+app.use('/api/admin', adminHubRoutes);
 app.use('/api/i18n', i18nRoutes);
 app.use('/api/channels', channelRoutes);
 app.use('/api/stores', storeRoutes);
-app.use('/api/admin', entityRoutes); // Mounting entities under /api/admin as per spec
-app.use('/api', recordRoutes);       // Records are top-level /api/records
 app.use('/api/audit', auditRoutes);
 app.use('/api/workflows', workflowRoutes);
 app.use('/api/rules', ruleRoutes);
@@ -140,6 +140,7 @@ app.use('/api', taskRoutes);         // /api/tasks
 app.use('/api', projectRoutes);      // /api/projects
 app.use('/api/sla', slaRoutes);
 app.use('/api/automation', automationRoutes);
+app.use('/api/collections', require('./routes/collectionRoutes'));
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

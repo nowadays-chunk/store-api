@@ -62,3 +62,69 @@ exports.getWarehouseCapacity = async (req, res, next) => {
         next(error);
     }
 };
+
+// Auto-generated stub functions
+exports.getWarehouseStock = async (req, res, next) => {
+    try {
+        res.json({ message: 'getWarehouseStock endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.adjustWarehouseStock = async (req, res, next) => {
+    try {
+        res.json({ message: 'adjustWarehouseStock endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.packOrder = async (req, res, next) => {
+    try {
+        res.json({ message: 'packOrder endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.shipOrder = async (req, res, next) => {
+    try {
+        res.json({ message: 'shipOrder endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getWarehouseMetrics = async (req, res, next) => {
+    try {
+        res.json({ message: 'getWarehouseMetrics endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getPickLists = async (req, res, next) => {
+    try {
+        res.json({ message: 'getPickLists endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.createPickList = async (req, res, next) => {
+    try {
+        res.json({ message: 'createPickList endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.updatePickList = async (req, res, next) => {
+    try {
+        res.json({ message: 'updatePickList endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+

@@ -196,3 +196,20 @@ exports.getShipments = async (req, res, next) => { res.json({ shipments: [] }); 
 exports.resendConfirmation = async (req, res, next) => { res.json({ message: 'Email sent' }); };
 exports.splitOrder = async (req, res, next) => { res.json({ message: 'Order split' }); };
 exports.mergeOrders = async (req, res, next) => { res.json({ message: 'Orders merged' }); };
+
+// Function aliases for route compatibility
+exports.listUserOrders = exports.getUserOrders;
+exports.adminListAll = exports.getAllOrders;
+exports.adminOrderStats = exports.getOrderStats;
+exports.adminFulfillmentQueue = exports.getFulfillmentQueue;
+exports.returnOrder = exports.requestReturn;
+exports.exchangeOrder = exports.requestExchange;
+exports.releaseHold = exports.releaseOrder;
+exports.downloadInvoice = exports.getInvoice;
+exports.getOrderShipments = exports.getShipments;
+exports.addAdminNote = exports.addNote;
+exports.getAdminNotes = exports.getNotes;
+exports.orderTimeline = exports.getTimeline;
+exports.manualOrder = exports.createManualOrder;
+exports.manualAdjustment = exports.addAdjustment;
+exports.writeOffOrder = exports.writeoffOrder;

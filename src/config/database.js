@@ -3,7 +3,7 @@ require('dotenv').config();
 
 // Database configuration for MySQL 8
 const sequelize = new Sequelize(
-    process.env.DB_NAME || 'tailored_bridge_db',
+    process.env.DB_NAME || 'tailored_bridge_store_db',
     process.env.DB_USER || 'root',
     process.env.DB_PASS || 'P@ssw0rd',
     {

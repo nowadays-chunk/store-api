@@ -44,4 +44,9 @@ const ProductVariant = sequelize.define('ProductVariant', {
     timestamps: true
 });
 
+ProductVariant.associate = (models) => {
+    ProductVariant.belongsTo(models.Product, { foreignKey: 'productId', as: 'product' });
+    ProductVariant.hasMany(models.Inventory, { foreignKey: 'variantId', as: 'inventory' });
+};
+
 module.exports = ProductVariant;

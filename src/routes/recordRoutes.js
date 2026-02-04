@@ -7,6 +7,7 @@ router.get('/records/:entity', recordController.getRecords);
 router.post('/records/:entity', recordController.createRecord);
 router.get('/records/:entity/:id', recordController.getRecordById);
 router.delete('/records/:entity/:id', recordController.deleteRecord);
+router.put('/records/:entity/:id', recordController.updateRecord);
 router.post('/records/:entity/:id/restore', recordController.restoreRecord);
 router.post('/records/:entity/:id/clone', recordController.cloneRecord);
 router.put('/records/:entity/:id/lock', recordController.lockRecord);

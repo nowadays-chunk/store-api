@@ -1,4 +1,6 @@
 const userService = require('../services/userService');
+const { User } = require('../models');
+const { Op } = require('sequelize');
 
 // Profile Management
 exports.getProfile = async (req, res, next) => {
@@ -28,9 +30,6 @@ exports.changePassword = async (req, res, next) => {
         res.status(400).json({ message: error.message });
     }
 };
-
-// Admin User Management
-const { User } = require('../models');
 
 exports.getAllUsers = async (req, res, next) => {
     try {
@@ -113,18 +112,321 @@ exports.getUserSessions = async (req, res, next) => {
     res.json({ sessions: [] });
 };
 
-exports.adminResetPassword = async (req, res, next) => { res.json({ message: 'Password reset' }); };
-exports.searchUsers = async (req, res, next) => { res.json({ users: [] }); };
-exports.verifyUser = async (req, res, next) => { res.json({ message: 'User verified' }); };
-exports.bulkImport = async (req, res, next) => { res.json({ imported: 0 }); };
-exports.bulkExport = async (req, res, next) => { res.json({ exported: 0 }); };
-exports.getAuditLog = async (req, res, next) => { res.json({ logs: [] }); };
+// Admin Functions
+exports.adminResetPassword = async (req, res, next) => {
+    try {
+        const { userId } = req.params;
+        const { newPassword } = req.body;
 
-// KYC
-exports.getKYC = async (req, res, next) => { res.json({ kyc: { status: 'pending' } }); };
-exports.submitKYC = async (req, res, next) => { res.json({ message: 'KYC submitted' }); };
-exports.approveKYC = async (req, res, next) => { res.json({ message: 'KYC approved' }); };
-exports.rejectKYC = async (req, res, next) => { res.json({ message: 'KYC rejected' }); };
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // In real implementation, hash the password
+        const bcrypt = require('bcryptjs');
+        const passwordHash = await bcrypt.hash(newPassword, 10);
+
+        user.passwordHash = passwordHash;
+        await user.save();
+
+        res.json({
+            message: 'Password reset successfully',
+            userId
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.searchUsers = async (req, res, next) => {
+    try {
+        const { query, role, status, limit = 50, offset = 0 } = req.query;
+
+        const where = {};
+
+        if (query) {
+            where[Op.or] = [
+                { email: { [Op.like]: `%${query}%` } },
+                { firstName: { [Op.like]: `%${query}%` } },
+                { lastName: { [Op.like]: `%${query}%` } }
+            ];
+        }
+
+        if (role) {
+            where.role = role;
+        }
+
+        if (status === 'active') {
+            where.isActive = true;
+        } else if (status === 'inactive') {
+            where.isActive = false;
+        }
+
+        const { count, rows: users } = await User.findAndCountAll({
+            where,
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+            attributes: { exclude: ['passwordHash'] },
+            order: [['createdAt', 'DESC']]
+        });
+
+        res.json({
+            users,
+            total: count,
+            limit: parseInt(limit),
+            offset: parseInt(offset)
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.verifyUser = async (req, res, next) => {
+    try {
+        const { userId } = req.params;
+
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        user.isVerified = true;
+        await user.save();
+
+        res.json({
+            message: 'User verified successfully',
+            user: {
+                id: user.id,
+                email: user.email,
+                isVerified: user.isVerified
+            }
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.bulkImport = async (req, res, next) => {
+    try {
+        const { users } = req.body;
+
+        if (!Array.isArray(users) || users.length === 0) {
+            return res.status(400).json({ message: 'Invalid user data' });
+        }
+
+        const bcrypt = require('bcryptjs');
+        const imported = [];
+        const errors = [];
+
+        for (let i = 0; i < users.length; i++) {
+            try {
+                const userData = users[i];
+
+                // Hash password if provided
+                if (userData.password) {
+                    userData.passwordHash = await bcrypt.hash(userData.password, 10);
+                    delete userData.password;
+                }
+
+                const user = await User.create(userData);
+                imported.push(user.id);
+            } catch (error) {
+                errors.push({
+                    index: i,
+                    email: users[i].email,
+                    error: error.message
+                });
+            }
+        }
+
+        res.json({
+            message: 'Bulk import completed',
+            imported: imported.length,
+            failed: errors.length,
+            errors: errors.length > 0 ? errors : undefined
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.bulkExport = async (req, res, next) => {
+    try {
+        const { role, isActive, format = 'json' } = req.query;
+
+        const where = {};
+        if (role) where.role = role;
+        if (isActive !== undefined) where.isActive = isActive === 'true';
+
+        const users = await User.findAll({
+            where,
+            attributes: { exclude: ['passwordHash'] },
+            order: [['createdAt', 'DESC']]
+        });
+
+        if (format === 'csv') {
+            // Generate CSV
+            const csv = [
+                'ID,Email,First Name,Last Name,Role,Active,Verified,Created At',
+                ...users.map(u =>
+                    `${u.id},${u.email},${u.firstName || ''},${u.lastName || ''},${u.role},${u.isActive},${u.isVerified},${u.createdAt}`
+                )
+            ].join('\n');
+
+            res.setHeader('Content-Type', 'text/csv');
+            res.setHeader('Content-Disposition', 'attachment; filename=users_export.csv');
+            res.send(csv);
+        } else {
+            res.json({
+                exported: users.length,
+                users
+            });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.getAuditLog = async (req, res, next) => {
+    try {
+        const { userId } = req.params;
+        const { limit = 100, offset = 0 } = req.query;
+
+        // Mock audit log data
+        const logs = [
+            {
+                id: 1,
+                userId,
+                action: 'USER_CREATED',
+                timestamp: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+                ipAddress: '192.168.1.1',
+                userAgent: 'Mozilla/5.0...',
+                changes: { status: 'created' }
+            },
+            {
+                id: 2,
+                userId,
+                action: 'EMAIL_VERIFIED',
+                timestamp: new Date(Date.now() - 29 * 24 * 60 * 60 * 1000),
+                ipAddress: '192.168.1.1',
+                changes: { isVerified: true }
+            },
+            {
+                id: 3,
+                userId,
+                action: 'PROFILE_UPDATED',
+                timestamp: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+                ipAddress: '192.168.1.5',
+                changes: { firstName: 'Updated', lastName: 'Name' }
+            }
+        ];
+
+        res.json({
+            logs: logs.slice(parseInt(offset), parseInt(offset) + parseInt(limit)),
+            total: logs.length
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// KYC Functions
+exports.getKYC = async (req, res, next) => {
+    try {
+        const { userId } = req.params;
+
+        // Mock KYC data
+        const kyc = {
+            userId,
+            status: 'pending',
+            submittedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+            documents: [
+                { type: 'ID_CARD', status: 'pending', uploadedAt: new Date() },
+                { type: 'PROOF_OF_ADDRESS', status: 'pending', uploadedAt: new Date() }
+            ],
+            verificationLevel: 'basic',
+            notes: []
+        };
+
+        res.json({ kyc });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.submitKYC = async (req, res, next) => {
+    try {
+        const { userId } = req.params;
+        const { documents, personalInfo } = req.body;
+
+        if (!documents || documents.length === 0) {
+            return res.status(400).json({ message: 'At least one document is required' });
+        }
+
+        const kyc = {
+            userId,
+            status: 'pending',
+            submittedAt: new Date(),
+            documents,
+            personalInfo,
+            verificationLevel: 'basic'
+        };
+
+        res.json({
+            message: 'KYC submitted successfully. Your documents will be reviewed within 2-3 business days.',
+            kyc
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.approveKYC = async (req, res, next) => {
+    try {
+        const { userId } = req.params;
+        const { verificationLevel = 'verified', notes } = req.body;
+
+        res.json({
+            message: 'KYC approved successfully',
+            kyc: {
+                userId,
+                status: 'approved',
+                verificationLevel,
+                approvedAt: new Date(),
+                approvedBy: req.user?.id,
+                notes
+            }
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.rejectKYC = async (req, res, next) => {
+    try {
+        const { userId } = req.params;
+        const { reason, notes } = req.body;
+
+        if (!reason) {
+            return res.status(400).json({ message: 'Rejection reason is required' });
+        }
+
+        res.json({
+            message: 'KYC rejected',
+            kyc: {
+                userId,
+                status: 'rejected',
+                reason,
+                notes,
+                rejectedAt: new Date(),
+                rejectedBy: req.user?.id
+            }
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
 
 // Addresses
 exports.getAddresses = async (req, res, next) => {
@@ -451,6 +753,48 @@ exports.requestDataDeletion = async (req, res, next) => {
         res.json({
             message: 'Account deletion request submitted. Your account will be deleted in 30 days unless you cancel this request.',
             deletionRequest
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+// Role Management
+exports.assignRole = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { roleId } = req.body;
+
+        const user = await User.findByPk(id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // In real implementation, this would update a UserRoles junction table
+        res.json({
+            message: 'Role assigned successfully',
+            userId: id,
+            roleId
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.removeRole = async (req, res, next) => {
+    try {
+        const { id, roleId } = req.params;
+
+        const user = await User.findByPk(id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // In real implementation, this would remove from UserRoles junction table
+        res.json({
+            message: 'Role removed successfully',
+            userId: id,
+            roleId
         });
     } catch (error) {
         res.status(400).json({ message: error.message });

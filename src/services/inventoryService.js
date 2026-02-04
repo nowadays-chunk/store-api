@@ -5,6 +5,9 @@ class InventoryService {
      * Get inventory for a product
      */
     async getInventory(productId) {
+        if (!productId) {
+            throw new Error('InventoryService.getInventory: productId is required');
+        }
         const inventory = await Inventory.findAll({
             where: { productId },
             include: [

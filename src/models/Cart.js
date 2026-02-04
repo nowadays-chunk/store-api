@@ -14,7 +14,7 @@ const Cart = sequelize.define('Cart', {
             key: 'id'
         }
     },
-    sessionId: DataTypes.STRING, // For guest carts
+    sessionId: DataTypes.STRING,
     subtotal: {
         type: DataTypes.DECIMAL(10, 2),
         defaultValue: 0
@@ -33,36 +33,13 @@ const Cart = sequelize.define('Cart', {
         defaultValue: 0
     }
 }, {
+    tableName: 'carts',
     timestamps: true
 });
 
-const CartItem = sequelize.define('CartItem', {
-    id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        primaryKey: true
-    },
-    cartId: {
-        type: DataTypes.UUID,
-        references: {
-            model: 'Carts',
-            key: 'id'
-        }
-    },
-    productId: {
-        type: DataTypes.UUID,
-        references: {
-            model: 'Products',
-            key: 'id'
-        }
-    },
-    quantity: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1
-    },
-    price: DataTypes.DECIMAL(10, 2)
-}, {
-    timestamps: true
-});
+Cart.associate = (models) => {
+    Cart.hasMany(models.CartItem, { foreignKey: 'cartId', as: 'items' });
+    Cart.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+};
 
-module.exports = { Cart, CartItem };
+module.exports = Cart;

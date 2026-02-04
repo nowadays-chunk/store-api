@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const rmaController = require('../controllers/rmaController');
 
+router.get('/', rmaController.getAllRMAs);
 router.post('/', rmaController.createRMA);
 router.get('/reasons', rmaController.getReturnReasons);
 router.get('/labels', rmaController.getReturnLabels);

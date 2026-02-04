@@ -15,7 +15,14 @@ module.exports = (sequelize, DataTypes) => {
         image: DataTypes.STRING,
         isActive: { type: DataTypes.BOOLEAN, defaultValue: true },
         startDate: DataTypes.DATE,
-        endDate: DataTypes.DATE
+        endDate: DataTypes.DATE,
+        userId: {
+            type: DataTypes.UUID,
+            references: {
+                model: 'Users',
+                key: 'id'
+            }
+        }
     }, {
         sequelize,
         modelName: 'Collection',

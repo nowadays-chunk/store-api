@@ -71,6 +71,10 @@ const marketplaceController = {
             totalCommission: 1000,
             breakdown: []
         });
+    },
+
+    getAllVendors: async (req, res) => {
+        res.json({ vendors: [] });
     }
 };
 

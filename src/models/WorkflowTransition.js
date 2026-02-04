@@ -1,23 +1,49 @@
-const { Model } = require('sequelize');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-module.exports = (sequelize, DataTypes) => {
-    class WorkflowTransition extends Model {
-        static associate(models) {
-            WorkflowTransition.belongsTo(models.Workflow, { foreignKey: 'workflowId', as: 'workflow' });
-            WorkflowTransition.belongsTo(models.WorkflowState, { foreignKey: 'fromStateId', as: 'fromState' });
-            WorkflowTransition.belongsTo(models.WorkflowState, { foreignKey: 'toStateId', as: 'toState' });
+const WorkflowTransition = sequelize.define('WorkflowTransition', {
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
+    },
+    workflowId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: 'Workflows',
+            key: 'id'
         }
+    },
+    fromStateId: {
+        type: DataTypes.UUID,
+        references: {
+            model: 'WorkflowStates',
+            key: 'id'
+        }
+    },
+    toStateId: {
+        type: DataTypes.UUID,
+        references: {
+            model: 'WorkflowStates',
+            key: 'id'
+        }
+    },
+    condition: {
+        type: DataTypes.JSON
+    },
+    action: {
+        type: DataTypes.JSON
     }
+}, {
+    timestamps: true,
+    tableName: 'WorkflowTransitions'
+});
 
-    WorkflowTransition.init({
-        id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-        name: { type: DataTypes.STRING, allowNull: false },
-        trigger: DataTypes.STRING, // e.g. 'APPROVE_BUTTON_CLICK'
-        conditions: DataTypes.JSON // Logic checks
-    }, {
-        sequelize,
-        modelName: 'WorkflowTransition',
-    });
-
-    return WorkflowTransition;
+WorkflowTransition.associate = (models) => {
+    WorkflowTransition.belongsTo(models.Workflow, { foreignKey: 'workflowId', as: 'workflow' });
+    WorkflowTransition.belongsTo(models.WorkflowState, { foreignKey: 'fromStateId', as: 'fromState' });
+    WorkflowTransition.belongsTo(models.WorkflowState, { foreignKey: 'toStateId', as: 'toState' });
 };
+
+module.exports = WorkflowTransition;

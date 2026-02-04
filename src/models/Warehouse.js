@@ -1,27 +1,51 @@
-const { Model } = require('sequelize');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-module.exports = (sequelize, DataTypes) => {
-    class Warehouse extends Model {
-        static associate(models) {
-            Warehouse.hasMany(models.Inventory, { foreignKey: 'warehouseId', as: 'inventory' });
-            Warehouse.hasMany(models.StockMovement, { foreignKey: 'warehouseId', as: 'movements' });
-        }
+const Warehouse = sequelize.define('Warehouse', {
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    code: {
+        type: DataTypes.STRING,
+        unique: true
+    },
+    address: {
+        type: DataTypes.STRING
+    },
+    city: {
+        type: DataTypes.STRING
+    },
+    country: {
+        type: DataTypes.STRING
+    },
+    contactPerson: {
+        type: DataTypes.STRING
+    },
+    contactEmail: {
+        type: DataTypes.STRING
+    },
+    capacity: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+    },
+    isActive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
     }
+}, {
+    tableName: 'warehouses',
+    timestamps: true
+});
 
-    Warehouse.init({
-        id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-        name: { type: DataTypes.STRING, allowNull: false },
-        code: { type: DataTypes.STRING, unique: true },
-        address: DataTypes.STRING,
-        city: DataTypes.STRING,
-        country: DataTypes.STRING,
-        contactPerson: DataTypes.STRING,
-        contactEmail: DataTypes.STRING,
-        isActive: { type: DataTypes.BOOLEAN, defaultValue: true }
-    }, {
-        sequelize,
-        modelName: 'Warehouse',
-    });
-
-    return Warehouse;
+Warehouse.associate = (models) => {
+    Warehouse.hasMany(models.Inventory, { foreignKey: 'warehouseId', as: 'inventory' });
+    Warehouse.hasMany(models.StockMovement, { foreignKey: 'warehouseId', as: 'movements' });
 };
+
+module.exports = Warehouse;

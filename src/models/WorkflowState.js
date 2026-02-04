@@ -1,22 +1,41 @@
-const { Model } = require('sequelize');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-module.exports = (sequelize, DataTypes) => {
-    class WorkflowState extends Model {
-        static associate(models) {
-            WorkflowState.belongsTo(models.Workflow, { foreignKey: 'workflowId', as: 'workflow' });
+const WorkflowState = sequelize.define('WorkflowState', {
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
+    },
+    workflowId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: 'Workflows',
+            key: 'id'
         }
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    type: {
+        type: DataTypes.STRING(50)
+    },
+    config: {
+        type: DataTypes.JSON
+    },
+    sortOrder: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
     }
+}, {
+    timestamps: true,
+    tableName: 'WorkflowStates'
+});
 
-    WorkflowState.init({
-        id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-        name: { type: DataTypes.STRING, allowNull: false },
-        isInitial: { type: DataTypes.BOOLEAN, defaultValue: false },
-        isFinal: { type: DataTypes.BOOLEAN, defaultValue: false },
-        metadata: DataTypes.JSON
-    }, {
-        sequelize,
-        modelName: 'WorkflowState',
-    });
-
-    return WorkflowState;
+WorkflowState.associate = (models) => {
+    WorkflowState.belongsTo(models.Workflow, { foreignKey: 'workflowId', as: 'workflow' });
 };
+
+module.exports = WorkflowState;

@@ -57,6 +57,13 @@ const Product = sequelize.define('Product', {
             key: 'id'
         }
     },
+    vendorId: {
+        type: DataTypes.UUID,
+        references: {
+            model: 'Vendors',
+            key: 'id'
+        }
+    },
     status: {
         type: DataTypes.ENUM('draft', 'active', 'archived'),
         defaultValue: 'draft'
@@ -90,5 +97,21 @@ const Product = sequelize.define('Product', {
 }, {
     timestamps: true
 });
+
+Product.associate = (models) => {
+    Product.belongsTo(models.Category, {
+        foreignKey: 'categoryId',
+        as: 'category'
+    });
+    Product.belongsTo(models.Brand, {
+        foreignKey: 'brandId',
+        as: 'brand'
+    });
+    Product.hasMany(models.ProductVariant, { foreignKey: 'productId', as: 'variants' });
+    Product.hasMany(models.ProductImage, { foreignKey: 'productId', as: 'productImages' });
+    Product.hasMany(models.Inventory, { foreignKey: 'productId', as: 'inventory' });
+    Product.belongsTo(models.Vendor, { foreignKey: 'vendorId', as: 'vendor' });
+    Product.belongsToMany(models.Collection, { through: 'ProductCollections', foreignKey: 'productId', as: 'collections' });
+};
 
 module.exports = Product;

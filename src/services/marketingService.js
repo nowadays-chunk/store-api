@@ -1,4 +1,5 @@
-const { Coupon, Promotion, User, Product, sequelize } = require('../models');
+const { Coupon, Promotion, User, Product, sequelize, Sequelize } = require('../models');
+const { Op } = Sequelize;
 
 class MarketingService {
     /**
@@ -16,8 +17,8 @@ class MarketingService {
         const now = new Date();
         const campaigns = await Promotion.findAll({
             where: {
-                startDate: { [sequelize.Op.lte]: now },
-                endDate: { [sequelize.Op.gte]: now },
+                startDate: { [Op.lte]: now },
+                endDate: { [Op.gte]: now },
                 isActive: true
             }
         });
@@ -118,17 +119,17 @@ class MarketingService {
         const segments = [
             {
                 name: 'High Value',
-                criteria: { totalSpent: { [sequelize.Op.gte]: 1000 } }
+                criteria: { totalSpent: { [Op.gte]: 1000 } }
             },
             {
                 name: 'Frequent Buyers',
-                criteria: { orderCount: { [sequelize.Op.gte]: 10 } }
+                criteria: { orderCount: { [Op.gte]: 10 } }
             },
             {
                 name: 'New Customers',
                 criteria: {
                     createdAt: {
-                        [sequelize.Op.gte]: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+                        [Op.gte]: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
                     }
                 }
             }

@@ -1,20 +1,52 @@
-const { Model } = require('sequelize');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-module.exports = (sequelize, DataTypes) => {
-    class CartItem extends Model {
-        static associate(models) {
-            CartItem.belongsTo(models.Cart, { foreignKey: 'cartId', as: 'cart' });
-            CartItem.belongsTo(models.ProductVariant, { foreignKey: 'variantId', as: 'variant' });
+const CartItem = sequelize.define('CartItem', {
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
+    },
+    cartId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: 'Carts',
+            key: 'id'
         }
+    },
+    productId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: 'Products',
+            key: 'id'
+        }
+    },
+    variantId: {
+        type: DataTypes.UUID,
+        references: {
+            model: 'ProductVariants',
+            key: 'id'
+        }
+    },
+    quantity: {
+        type: DataTypes.INTEGER,
+        defaultValue: 1
+    },
+    price: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false
     }
+}, {
+    tableName: 'cart_items',
+    timestamps: true
+});
 
-    CartItem.init({
-        id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-        quantity: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 }
-    }, {
-        sequelize,
-        modelName: 'CartItem',
-    });
-
-    return CartItem;
+CartItem.associate = (models) => {
+    CartItem.belongsTo(models.Cart, { foreignKey: 'cartId', as: 'cart' });
+    CartItem.belongsTo(models.Product, { foreignKey: 'productId', as: 'product' });
+    CartItem.belongsTo(models.ProductVariant, { foreignKey: 'variantId', as: 'variant' });
 };
+
+module.exports = CartItem;

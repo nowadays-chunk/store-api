@@ -14,6 +14,13 @@ const Inventory = sequelize.define('Inventory', {
             key: 'id'
         }
     },
+    variantId: {
+        type: DataTypes.UUID,
+        references: {
+            model: 'ProductVariants',
+            key: 'id'
+        }
+    },
     warehouseId: {
         type: DataTypes.UUID,
         references: {
@@ -29,37 +36,18 @@ const Inventory = sequelize.define('Inventory', {
         type: DataTypes.INTEGER,
         defaultValue: 0
     },
-    available: {
-        type: DataTypes.VIRTUAL,
-        get() {
-            return this.quantity - this.reserved;
-        }
+    sku: {
+        type: DataTypes.STRING
     }
 }, {
+    tableName: 'inventory',
     timestamps: true
 });
 
-const Warehouse = sequelize.define('Warehouse', {
-    id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        primaryKey: true
-    },
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    code: {
-        type: DataTypes.STRING,
-        unique: true
-    },
-    address: DataTypes.JSON,
-    isActive: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true
-    }
-}, {
-    timestamps: true
-});
+Inventory.associate = (models) => {
+    Inventory.belongsTo(models.Product, { foreignKey: 'productId', as: 'product' });
+    Inventory.belongsTo(models.ProductVariant, { foreignKey: 'variantId', as: 'variant' });
+    Inventory.belongsTo(models.Warehouse, { foreignKey: 'warehouseId', as: 'warehouse' });
+};
 
-module.exports = { Inventory, Warehouse };
+module.exports = Inventory;

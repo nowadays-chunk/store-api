@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const promotionController = require('../controllers/promotionController');
+const couponController = require('../controllers/couponController');
 
-router.post('/', promotionController.createCoupon);
-router.put('/:id', promotionController.updateCoupon);
-router.delete('/:id', promotionController.deleteCoupon);
-router.post('/validate', promotionController.validateCoupon);
+router.post('/', couponController.createCoupon);
+router.put('/:id', couponController.updateCoupon);
+router.delete('/:id', couponController.deleteCoupon);
+router.post('/validate', couponController.validateCoupon);
 
 module.exports = router;

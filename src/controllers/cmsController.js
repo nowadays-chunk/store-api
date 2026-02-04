@@ -136,3 +136,56 @@ exports.getAllPages = async (req, res, next) => {
         next(error);
     }
 };
+
+// Missing functions
+exports.getPages = async (req, res, next) => {
+    try {
+        const { Page } = require('../models');
+        const pages = await Page.findAll();
+        res.json({ pages });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getPageDetails = async (req, res, next) => {
+    try {
+        const { Page } = require('../models');
+        const page = await Page.findByPk(req.params.id);
+        res.json(page);
+    } catch (error) {
+        res.status(404).json({ message: 'Page not found' });
+    }
+};
+
+exports.getBlocks = async (req, res, next) => {
+    res.json({ blocks: [] });
+};
+
+exports.getMenus = async (req, res, next) => {
+    res.json({ menus: [] });
+};
+
+exports.getBanners = async (req, res, next) => {
+    res.json({ banners: [] });
+};
+
+exports.getLandingPages = async (req, res, next) => {
+    res.json({ landingPages: [] });
+};
+
+exports.getRedirects = async (req, res, next) => {
+    res.json({ redirects: [] });
+};
+
+exports.getAssets = async (req, res, next) => {
+    res.json({ assets: [] });
+};
+
+exports.getForms = async (req, res, next) => {
+    res.json({ forms: [] });
+};
+
+exports.getAnnouncements = async (req, res, next) => {
+    res.json({ announcements: [] });
+};

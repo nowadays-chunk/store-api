@@ -8,6 +8,32 @@ const { Order, OrderItem, Product, User } = require('../models');
 /**
  * Create RMA request
  */
+/**
+ * Get all RMA requests
+ */
+exports.getAllRMAs = async (req, res, next) => {
+    try {
+        // Mock list for now
+        const rmas = [
+            {
+                id: 'RMA-MOCK-1',
+                orderId: 'ORD-123',
+                customerName: 'John Doe',
+                status: 'PENDING',
+                reason: 'Defective',
+                requestedAt: new Date(),
+                items: [{ title: 'Widget X', quantity: 1 }]
+            }
+        ];
+        res.json(rmas);
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Create RMA request
+ */
 exports.createRMA = async (req, res, next) => {
     try {
         const { orderId, items, reason, description } = req.body;

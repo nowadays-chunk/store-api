@@ -77,3 +77,31 @@ exports.handleWebhook = async (req, res, next) => {
         res.status(400).json({ message: error.message });
     }
 };
+
+// Missing functions
+exports.getPaymentHistory = async (req, res, next) => {
+    try {
+        const payments = await paymentService.getPaymentsByOrder(req.user?.id);
+        res.json({ payments });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getPaymentStatus = async (req, res, next) => {
+    try {
+        const payment = await paymentService.getPaymentById(req.params.id);
+        res.json(payment);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+};
+
+exports.stripeWebhook = async (req, res, next) => {
+    try {
+        const result = await paymentService.verifyWebhook(req.body);
+        res.json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};

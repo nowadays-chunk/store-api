@@ -86,3 +86,77 @@ exports.getSegments = async (req, res, next) => {
         next(error);
     }
 };
+
+// Auto-generated stub functions
+exports.getCampaigns = async (req, res, next) => {
+    try {
+        res.json({ campaigns: [] });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getCampaignDetails = async (req, res, next) => {
+    try {
+        res.json({ campaign: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getABTests = async (req, res, next) => {
+    try {
+        res.json({ tests: [] });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getABTestResults = async (req, res, next) => {
+    try {
+        res.json({ results: [] });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getReferrals = async (req, res, next) => {
+    try {
+        res.json({ message: 'getReferrals endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getLoyaltyProgram = async (req, res, next) => {
+    try {
+        res.json({ message: 'getLoyaltyProgram endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getLoyaltyPoints = async (req, res, next) => {
+    try {
+        res.json({ message: 'getLoyaltyPoints endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getGiftCards = async (req, res, next) => {
+    try {
+        res.json({ giftCards: [] });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.lookupGiftCard = async (req, res, next) => {
+    try {
+        res.json({ message: 'lookupGiftCard endpoint', data: {} });
+    } catch (error) {
+        next(error);
+    }
+};
+

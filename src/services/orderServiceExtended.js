@@ -5,7 +5,9 @@ class OrderService {
      * Get all orders (admin)
      */
     async getAllOrders(filters = {}) {
-        const { page = 1, limit = 20, status } = filters;
+        let { page = 1, limit = 20, status } = filters;
+        page = parseInt(page, 10) || 1;
+        limit = parseInt(limit, 10) || 20;
         const offset = (page - 1) * limit;
 
         const where = {};

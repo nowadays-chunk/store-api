@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const inventoryController = require('../controllers/inventoryController');
+const { protect, restrictTo } = require('../middleware/auth');
+
+// All inventory routes require admin access
+router.use(protect, restrictTo('admin'));
 
 // Static Routes first
 router.get('/', inventoryController.getInventory);
@@ -24,7 +28,7 @@ router.post('/reorder', inventoryController.createReorder);
 router.post('/count/start', inventoryController.startStockCount);
 router.post('/count/submit', inventoryController.submitStockCount);
 
-// Variant Specific (Dynamic :variantId matches anything not matched above)
+// Variant Specific
 router.get('/:variantId', inventoryController.getVariantInventory);
 router.put('/:variantId/lock', inventoryController.lockStock);
 router.put('/:variantId/unlock', inventoryController.unlockStock);
