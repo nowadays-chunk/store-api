@@ -1,0 +1,10 @@
+exports.getTasks = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getTaskComments = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getTaskDependencies = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getProjects = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getProjectMilestones = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getProjectRisks = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getSLAPolicies = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getSLABreaches = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getAutomationTriggers = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getAutomationActions = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };

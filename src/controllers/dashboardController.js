@@ -1,0 +1,11 @@
+exports.getDashboards = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.createDashboard = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getDashboardById = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.updateDashboard = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.deleteDashboard = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.addWidget = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.updateWidget = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.deleteWidget = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getPermissions = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.updatePermissions = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.cloneDashboard = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };

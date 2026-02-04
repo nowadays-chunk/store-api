@@ -1,0 +1,10 @@
+exports.getAccounts = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getContracts = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getPriceLists = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getQuotes = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.approveQuote = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getCreditLimits = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getPaymentTerms = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getPurchaseOrders = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getApprovals = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getBudgets = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };

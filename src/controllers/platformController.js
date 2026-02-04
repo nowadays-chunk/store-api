@@ -1,0 +1,10 @@
+exports.getFeatureFlags = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.updateFeatureFlag = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getPlatformConfig = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getEnvironmentInfo = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getBackgroundJobs = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.retryJob = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getHealthCheck = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getSystemMetrics = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getRateLimitConfig = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getMaintenanceMode = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };

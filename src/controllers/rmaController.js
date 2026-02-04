@@ -1,0 +1,10 @@
+exports.createRMA = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getRMADetails = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.approveRMA = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.rejectRMA = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.receiveRMAItem = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.refundRMA = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getReturnReasons = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getReturnLabels = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getInspections = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getDisposals = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };

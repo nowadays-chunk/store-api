@@ -1,0 +1,509 @@
+-- Moroccan Store Database Schema
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS `ProductTags`;
+
+DROP TABLE IF EXISTS `ProductCollections`;
+
+DROP TABLE IF EXISTS `RolePermissions`;
+
+DROP TABLE IF EXISTS `UserRoles`;
+
+DROP TABLE IF EXISTS `Dashboards`;
+
+DROP TABLE IF EXISTS `ReportExecutions`;
+
+DROP TABLE IF EXISTS `Reports`;
+
+DROP TABLE IF EXISTS `ContentBlocks`;
+
+DROP TABLE IF EXISTS `Pages`;
+
+DROP TABLE IF EXISTS `BusinessRules`;
+
+DROP TABLE IF EXISTS `WorkflowTransitions`;
+
+DROP TABLE IF EXISTS `WorkflowStates`;
+
+DROP TABLE IF EXISTS `Workflows`;
+
+DROP TABLE IF EXISTS `Ledgers`;
+
+DROP TABLE IF EXISTS `TaxRates`;
+
+DROP TABLE IF EXISTS `Payouts`;
+
+DROP TABLE IF EXISTS `Invoices`;
+
+DROP TABLE IF EXISTS `Promotions`;
+
+DROP TABLE IF EXISTS `Coupons`;
+
+DROP TABLE IF EXISTS `Shipments`;
+
+DROP TABLE IF EXISTS `Payments`;
+
+DROP TABLE IF EXISTS `CartItems`;
+
+DROP TABLE IF EXISTS `Carts`;
+
+DROP TABLE IF EXISTS `OrderItems`;
+
+DROP TABLE IF EXISTS `Orders`;
+
+DROP TABLE IF EXISTS `StockMovements`;
+
+DROP TABLE IF EXISTS `Inventories`;
+
+DROP TABLE IF EXISTS `Warehouses`;
+
+DROP TABLE IF EXISTS `Tags`;
+
+DROP TABLE IF EXISTS `ProductImages`;
+
+DROP TABLE IF EXISTS `ProductVariants`;
+
+DROP TABLE IF EXISTS `Collections`;
+
+DROP TABLE IF EXISTS `Products`;
+
+DROP TABLE IF EXISTS `Vendors`;
+
+DROP TABLE IF EXISTS `Brands`;
+
+DROP TABLE IF EXISTS `Categories`;
+
+DROP TABLE IF EXISTS `Sessions`;
+
+DROP TABLE IF EXISTS `Addresses`;
+
+DROP TABLE IF EXISTS `Permissions`;
+
+DROP TABLE IF EXISTS `Roles`;
+
+DROP TABLE IF EXISTS `Users`;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Users' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Roles' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Permissions' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Addresses' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Sessions' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Products' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Categories' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Brands' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Collections' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'ProductVariants' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'ProductImages' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Tags' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Warehouses' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Inventories' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'StockMovements' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Orders' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'OrderItems' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Carts' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'CartItems' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Payments' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Shipments' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Coupons' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Promotions' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Vendors' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Invoices' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Payouts' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'TaxRates' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Ledgers' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Workflows' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'WorkflowStates' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'WorkflowTransitions' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'BusinessRules' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Pages' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'ContentBlocks' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Reports' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'ReportExecutions' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Dashboards' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'UserRoles' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'RolePermissions' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'ProductCollections' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'ProductTags' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='moroccan_store_db' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+DROP TABLE IF EXISTS `Users`;
+
+DROP TABLE IF EXISTS `Roles`;
+
+DROP TABLE IF EXISTS `Permissions`;
+
+DROP TABLE IF EXISTS `Addresses`;
+
+DROP TABLE IF EXISTS `Sessions`;
+
+DROP TABLE IF EXISTS `Products`;
+
+DROP TABLE IF EXISTS `Categories`;
+
+DROP TABLE IF EXISTS `Brands`;
+
+DROP TABLE IF EXISTS `Collections`;
+
+DROP TABLE IF EXISTS `ProductVariants`;
+
+DROP TABLE IF EXISTS `ProductImages`;
+
+DROP TABLE IF EXISTS `Tags`;
+
+DROP TABLE IF EXISTS `Warehouses`;
+
+DROP TABLE IF EXISTS `Inventories`;
+
+DROP TABLE IF EXISTS `StockMovements`;
+
+DROP TABLE IF EXISTS `Orders`;
+
+DROP TABLE IF EXISTS `OrderItems`;
+
+DROP TABLE IF EXISTS `Carts`;
+
+DROP TABLE IF EXISTS `CartItems`;
+
+DROP TABLE IF EXISTS `Payments`;
+
+DROP TABLE IF EXISTS `Shipments`;
+
+DROP TABLE IF EXISTS `Coupons`;
+
+DROP TABLE IF EXISTS `Promotions`;
+
+DROP TABLE IF EXISTS `Vendors`;
+
+DROP TABLE IF EXISTS `Invoices`;
+
+DROP TABLE IF EXISTS `Payouts`;
+
+DROP TABLE IF EXISTS `TaxRates`;
+
+DROP TABLE IF EXISTS `Ledgers`;
+
+DROP TABLE IF EXISTS `Workflows`;
+
+DROP TABLE IF EXISTS `WorkflowStates`;
+
+DROP TABLE IF EXISTS `WorkflowTransitions`;
+
+DROP TABLE IF EXISTS `BusinessRules`;
+
+DROP TABLE IF EXISTS `Pages`;
+
+DROP TABLE IF EXISTS `ContentBlocks`;
+
+DROP TABLE IF EXISTS `Reports`;
+
+DROP TABLE IF EXISTS `ReportExecutions`;
+
+DROP TABLE IF EXISTS `Dashboards`;
+
+DROP TABLE IF EXISTS `UserRoles`;
+
+DROP TABLE IF EXISTS `RolePermissions`;
+
+DROP TABLE IF EXISTS `ProductCollections`;
+
+DROP TABLE IF EXISTS `ProductTags`;
+
+DROP TABLE IF EXISTS `Users`;
+
+CREATE TABLE IF NOT EXISTS `Users` (`id` CHAR(36) BINARY , `firstName` VARCHAR(255) NOT NULL, `lastName` VARCHAR(255) NOT NULL, `email` VARCHAR(255) NOT NULL UNIQUE, `password` VARCHAR(255) NOT NULL, `phoneNumber` VARCHAR(255), `isVerified` TINYINT(1) DEFAULT false, `verificationToken` VARCHAR(255), `resetPasswordToken` VARCHAR(255), `resetPasswordExpires` DATETIME, `lastLogin` DATETIME, `isActive` TINYINT(1) DEFAULT true, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Users`;
+
+DROP TABLE IF EXISTS `Roles`;
+
+CREATE TABLE IF NOT EXISTS `Roles` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL UNIQUE, `description` TEXT, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Roles`;
+
+DROP TABLE IF EXISTS `Permissions`;
+
+CREATE TABLE IF NOT EXISTS `Permissions` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL UNIQUE COMMENT 'Format: resource:action e.g. users:create', `description` TEXT, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Permissions`;
+
+DROP TABLE IF EXISTS `Addresses`;
+
+CREATE TABLE IF NOT EXISTS `Addresses` (`id` CHAR(36) BINARY , `alias` VARCHAR(255), `fullName` VARCHAR(255) NOT NULL, `streetAddress` VARCHAR(255) NOT NULL, `apartment` VARCHAR(255), `city` VARCHAR(255) NOT NULL, `state` VARCHAR(255), `postalCode` VARCHAR(255) NOT NULL, `country` VARCHAR(255) NOT NULL DEFAULT 'Morocco', `phoneNumber` VARCHAR(255), `isDefault` TINYINT(1) DEFAULT false, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `userId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`userId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Addresses`;
+
+DROP TABLE IF EXISTS `Sessions`;
+
+CREATE TABLE IF NOT EXISTS `Sessions` (`id` CHAR(36) BINARY , `token` TEXT NOT NULL, `device` VARCHAR(255), `ipAddress` VARCHAR(255), `userAgent` VARCHAR(255), `expiresAt` DATETIME, `isValid` TINYINT(1) DEFAULT true, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `userId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`userId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Sessions`;
+
+DROP TABLE IF EXISTS `Categories`;
+
+CREATE TABLE IF NOT EXISTS `Categories` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL, `slug` VARCHAR(255) NOT NULL UNIQUE, `description` TEXT, `image` VARCHAR(255), `isActive` TINYINT(1) DEFAULT true, `sortOrder` INTEGER DEFAULT 0, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `parentId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`parentId`) REFERENCES `Categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Categories`;
+
+DROP TABLE IF EXISTS `Brands`;
+
+CREATE TABLE IF NOT EXISTS `Brands` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL UNIQUE, `slug` VARCHAR(255) NOT NULL UNIQUE, `website` VARCHAR(255), `logo` VARCHAR(255), `description` TEXT, `isActive` TINYINT(1) DEFAULT true, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Brands`;
+
+DROP TABLE IF EXISTS `Vendors`;
+
+CREATE TABLE IF NOT EXISTS `Vendors` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL UNIQUE, `slug` VARCHAR(255) NOT NULL UNIQUE, `description` TEXT, `logo` VARCHAR(255), `banner` VARCHAR(255), `commissionRate` FLOAT DEFAULT 10, `status` ENUM('PENDING', 'APPROVED', 'REJECTED', 'SUSPENDED') DEFAULT 'PENDING', `verificationStatus` ENUM('UNVERIFIED', 'VERIFIED') DEFAULT 'UNVERIFIED', `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `userId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`userId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Vendors`;
+
+DROP TABLE IF EXISTS `Products`;
+
+CREATE TABLE IF NOT EXISTS `Products` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL, `slug` VARCHAR(255) NOT NULL UNIQUE, `description` TEXT, `shortDescription` VARCHAR(255), `basePrice` DECIMAL(10,2) NOT NULL, `discountPrice` DECIMAL(10,2), `isPublished` TINYINT(1) DEFAULT false, `isFeatured` TINYINT(1) DEFAULT false, `sku` VARCHAR(255), `trackInventory` TINYINT(1) DEFAULT true, `metaTitle` VARCHAR(255), `metaDescription` TEXT, `viewCount` INTEGER DEFAULT 0, `salesCount` INTEGER DEFAULT 0, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `categoryId` CHAR(36) BINARY, `brandId` CHAR(36) BINARY, `vendorId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`categoryId`) REFERENCES `Categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`brandId`) REFERENCES `Brands` (`id`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`vendorId`) REFERENCES `Vendors` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Products`;
+
+ALTER TABLE `Products` ADD INDEX `products_slug` (`slug`);
+
+ALTER TABLE `Products` ADD INDEX `products_is_published` (`isPublished`);
+
+DROP TABLE IF EXISTS `Collections`;
+
+CREATE TABLE IF NOT EXISTS `Collections` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL, `slug` VARCHAR(255) NOT NULL UNIQUE, `description` TEXT, `image` VARCHAR(255), `isActive` TINYINT(1) DEFAULT true, `startDate` DATETIME, `endDate` DATETIME, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Collections`;
+
+DROP TABLE IF EXISTS `ProductVariants`;
+
+CREATE TABLE IF NOT EXISTS `ProductVariants` (`id` CHAR(36) BINARY , `sku` VARCHAR(255) NOT NULL UNIQUE, `barcode` VARCHAR(255), `price` DECIMAL(10,2) NOT NULL, `costPrice` DECIMAL(10,2), `weight` FLOAT, `dimensions` VARCHAR(255), `attributes` JSON, `isActive` TINYINT(1) DEFAULT true, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `productId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`productId`) REFERENCES `Products` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `ProductVariants`;
+
+DROP TABLE IF EXISTS `ProductImages`;
+
+CREATE TABLE IF NOT EXISTS `ProductImages` (`id` CHAR(36) BINARY , `url` VARCHAR(255) NOT NULL, `altText` VARCHAR(255), `isPrimary` TINYINT(1) DEFAULT false, `sortOrder` INTEGER DEFAULT 0, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `productId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`productId`) REFERENCES `Products` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `ProductImages`;
+
+DROP TABLE IF EXISTS `Tags`;
+
+CREATE TABLE IF NOT EXISTS `Tags` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL UNIQUE, `slug` VARCHAR(255) NOT NULL UNIQUE, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Tags`;
+
+DROP TABLE IF EXISTS `Warehouses`;
+
+CREATE TABLE IF NOT EXISTS `Warehouses` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL, `code` VARCHAR(255) UNIQUE, `address` VARCHAR(255), `city` VARCHAR(255), `country` VARCHAR(255), `contactPerson` VARCHAR(255), `contactEmail` VARCHAR(255), `isActive` TINYINT(1) DEFAULT true, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Warehouses`;
+
+DROP TABLE IF EXISTS `Inventories`;
+
+CREATE TABLE IF NOT EXISTS `Inventories` (`id` CHAR(36) BINARY , `quantity` INTEGER DEFAULT 0, `reserved` INTEGER DEFAULT 0, `lowStockThreshold` INTEGER DEFAULT 10, `aisle` VARCHAR(255), `bin` VARCHAR(255), `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `variantId` CHAR(36) BINARY, `warehouseId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`variantId`) REFERENCES `ProductVariants` (`id`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`warehouseId`) REFERENCES `Warehouses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Inventories`;
+
+ALTER TABLE `Inventories` ADD UNIQUE INDEX `inventories_variant_id_warehouse_id` (`variantId`, `warehouseId`);
+
+DROP TABLE IF EXISTS `StockMovements`;
+
+CREATE TABLE IF NOT EXISTS `StockMovements` (`id` CHAR(36) BINARY , `quantity` INTEGER NOT NULL, `type` ENUM('IN', 'OUT', 'ADJUSTMENT', 'TRANSFER', 'RETURN') NOT NULL, `reason` VARCHAR(255), `referenceId` VARCHAR(255), `notes` TEXT, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `warehouseId` CHAR(36) BINARY, `variantId` CHAR(36) BINARY, `userId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`warehouseId`) REFERENCES `Warehouses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`variantId`) REFERENCES `ProductVariants` (`id`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`userId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `StockMovements`;
+
+DROP TABLE IF EXISTS `Orders`;
+
+CREATE TABLE IF NOT EXISTS `Orders` (`id` CHAR(36) BINARY , `orderNumber` VARCHAR(255) UNIQUE, `status` ENUM('PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED', 'RETURNED') DEFAULT 'PENDING', `totalAmount` DECIMAL(10,2) NOT NULL, `subTotal` DECIMAL(10,2) NOT NULL, `taxAmount` DECIMAL(10,2) DEFAULT 0, `shippingCost` DECIMAL(10,2) DEFAULT 0, `discountAmount` DECIMAL(10,2) DEFAULT 0, `paymentStatus` ENUM('PENDING', 'PAID', 'FAILED', 'REFUNDED') DEFAULT 'PENDING', `paymentMethod` VARCHAR(255), `notes` TEXT, `adminNotes` TEXT, `isGuest` TINYINT(1) DEFAULT false, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `userId` CHAR(36) BINARY, `shippingAddressId` CHAR(36) BINARY, `billingAddressId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`userId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`shippingAddressId`) REFERENCES `Addresses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`billingAddressId`) REFERENCES `Addresses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Orders`;
+
+ALTER TABLE `Orders` ADD INDEX `orders_order_number` (`orderNumber`);
+
+ALTER TABLE `Orders` ADD INDEX `orders_user_id` (`userId`);
+
+ALTER TABLE `Orders` ADD INDEX `orders_status` (`status`);
+
+DROP TABLE IF EXISTS `OrderItems`;
+
+CREATE TABLE IF NOT EXISTS `OrderItems` (`id` CHAR(36) BINARY , `productName` VARCHAR(255), `sku` VARCHAR(255), `price` DECIMAL(10,2) NOT NULL, `quantity` INTEGER NOT NULL DEFAULT 1, `total` DECIMAL(10,2) NOT NULL, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `orderId` CHAR(36) BINARY, `variantId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`variantId`) REFERENCES `ProductVariants` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `OrderItems`;
+
+DROP TABLE IF EXISTS `Carts`;
+
+CREATE TABLE IF NOT EXISTS `Carts` (`id` CHAR(36) BINARY , `sessionId` VARCHAR(255), `itemsCount` INTEGER DEFAULT 0, `subTotal` DECIMAL(10,2) DEFAULT 0, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `userId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`userId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Carts`;
+
+DROP TABLE IF EXISTS `CartItems`;
+
+CREATE TABLE IF NOT EXISTS `CartItems` (`id` CHAR(36) BINARY , `quantity` INTEGER NOT NULL DEFAULT 1, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `cartId` CHAR(36) BINARY, `variantId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`cartId`) REFERENCES `Carts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`variantId`) REFERENCES `ProductVariants` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `CartItems`;
+
+DROP TABLE IF EXISTS `Payments`;
+
+CREATE TABLE IF NOT EXISTS `Payments` (`id` CHAR(36) BINARY , `amount` DECIMAL(10,2) NOT NULL, `currency` VARCHAR(255) DEFAULT 'USD', `provider` VARCHAR(255), `status` ENUM('PENDING', 'COMPLETED', 'FAILED', 'REFUNDED') DEFAULT 'PENDING', `transactionId` VARCHAR(255), `paymentMethodJson` JSON, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `orderId` CHAR(36) BINARY, `userId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`userId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Payments`;
+
+DROP TABLE IF EXISTS `Shipments`;
+
+CREATE TABLE IF NOT EXISTS `Shipments` (`id` CHAR(36) BINARY , `trackingNumber` VARCHAR(255), `carrier` VARCHAR(255), `status` ENUM('PENDING', 'SHIPPED', 'IN_TRANSIT', 'DELIVERED', 'FAILED') DEFAULT 'PENDING', `shippedDate` DATETIME, `estimatedDeliveryDate` DATETIME, `labelUrl` VARCHAR(255), `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `orderId` CHAR(36) BINARY, `warehouseId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`warehouseId`) REFERENCES `Warehouses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Shipments`;
+
+DROP TABLE IF EXISTS `Coupons`;
+
+CREATE TABLE IF NOT EXISTS `Coupons` (`id` CHAR(36) BINARY , `code` VARCHAR(255) NOT NULL UNIQUE, `type` ENUM('PERCENTAGE', 'FIXED_AMOUNT', 'FREE_SHIPPING') DEFAULT 'PERCENTAGE', `value` DECIMAL(10,2) NOT NULL, `minOrderAmount` DECIMAL(10,2), `maxDiscountAmount` DECIMAL(10,2), `startDate` DATETIME, `expirationDate` DATETIME, `usageLimit` INTEGER, `usageCount` INTEGER DEFAULT 0, `isActive` TINYINT(1) DEFAULT true, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Coupons`;
+
+DROP TABLE IF EXISTS `Promotions`;
+
+CREATE TABLE IF NOT EXISTS `Promotions` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL, `description` TEXT, `startDate` DATETIME, `endDate` DATETIME, `isActive` TINYINT(1) DEFAULT true, `rules` JSON, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Promotions`;
+
+DROP TABLE IF EXISTS `Invoices`;
+
+CREATE TABLE IF NOT EXISTS `Invoices` (`id` CHAR(36) BINARY , `invoiceNumber` VARCHAR(255) NOT NULL UNIQUE, `issueDate` DATETIME, `dueDate` DATETIME, `totalAmount` DECIMAL(10,2), `status` ENUM('DRAFT', 'ISSUED', 'PAID', 'VOID', 'OVERDUE') DEFAULT 'DRAFT', `itemsSnapshot` JSON, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `orderId` CHAR(36) BINARY, `billToId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`billToId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Invoices`;
+
+DROP TABLE IF EXISTS `Payouts`;
+
+CREATE TABLE IF NOT EXISTS `Payouts` (`id` CHAR(36) BINARY , `amount` DECIMAL(10,2), `status` ENUM('PENDING', 'PROCESSING', 'COMPLETED', 'FAILED') DEFAULT 'PENDING', `transactionId` VARCHAR(255), `payoutDate` DATETIME, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `vendorId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`vendorId`) REFERENCES `Vendors` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Payouts`;
+
+DROP TABLE IF EXISTS `TaxRates`;
+
+CREATE TABLE IF NOT EXISTS `TaxRates` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL, `rate` FLOAT NOT NULL, `country` VARCHAR(255), `state` VARCHAR(255), `type` ENUM('VAT', 'SALES_TAX') DEFAULT 'VAT', `isActive` TINYINT(1) DEFAULT true, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `TaxRates`;
+
+DROP TABLE IF EXISTS `Ledgers`;
+
+CREATE TABLE IF NOT EXISTS `Ledgers` (`id` CHAR(36) BINARY , `account` VARCHAR(255) NOT NULL, `type` ENUM('DEBIT', 'CREDIT') NOT NULL, `amount` DECIMAL(10,2) NOT NULL, `description` VARCHAR(255), `referenceId` VARCHAR(255), `referenceType` VARCHAR(255), `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Ledgers`;
+
+DROP TABLE IF EXISTS `Workflows`;
+
+CREATE TABLE IF NOT EXISTS `Workflows` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL UNIQUE, `entityType` VARCHAR(255) NOT NULL, `isActive` TINYINT(1) DEFAULT true, `description` TEXT, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Workflows`;
+
+DROP TABLE IF EXISTS `WorkflowStates`;
+
+CREATE TABLE IF NOT EXISTS `WorkflowStates` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL, `isInitial` TINYINT(1) DEFAULT false, `isFinal` TINYINT(1) DEFAULT false, `metadata` JSON, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `workflowId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`workflowId`) REFERENCES `Workflows` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `WorkflowStates`;
+
+DROP TABLE IF EXISTS `WorkflowTransitions`;
+
+CREATE TABLE IF NOT EXISTS `WorkflowTransitions` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL, `trigger` VARCHAR(255), `conditions` JSON, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `workflowId` CHAR(36) BINARY, `fromStateId` CHAR(36) BINARY, `toStateId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`workflowId`) REFERENCES `Workflows` (`id`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`fromStateId`) REFERENCES `WorkflowStates` (`id`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`toStateId`) REFERENCES `WorkflowStates` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `WorkflowTransitions`;
+
+DROP TABLE IF EXISTS `BusinessRules`;
+
+CREATE TABLE IF NOT EXISTS `BusinessRules` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL, `entityType` VARCHAR(255) NOT NULL, `triggerEvent` VARCHAR(255) NOT NULL, `conditions` JSON, `actions` JSON, `priority` INTEGER DEFAULT 0, `isActive` TINYINT(1) DEFAULT true, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `BusinessRules`;
+
+DROP TABLE IF EXISTS `Pages`;
+
+CREATE TABLE IF NOT EXISTS `Pages` (`id` CHAR(36) BINARY , `title` VARCHAR(255) NOT NULL, `slug` VARCHAR(255) NOT NULL UNIQUE, `content` LONGTEXT, `metaTitle` VARCHAR(255), `metaDescription` TEXT, `isPublished` TINYINT(1) DEFAULT false, `publishedAt` DATETIME, `template` VARCHAR(255) DEFAULT 'default', `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Pages`;
+
+DROP TABLE IF EXISTS `ContentBlocks`;
+
+CREATE TABLE IF NOT EXISTS `ContentBlocks` (`id` CHAR(36) BINARY , `identifier` VARCHAR(255) NOT NULL UNIQUE, `title` VARCHAR(255), `content` JSON, `type` VARCHAR(255) DEFAULT 'html', `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `ContentBlocks`;
+
+DROP TABLE IF EXISTS `Reports`;
+
+CREATE TABLE IF NOT EXISTS `Reports` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL, `description` TEXT, `query` TEXT, `parameters` JSON, `type` ENUM('TABLE', 'CHART', 'PIVOT') DEFAULT 'TABLE', `createdBy` CHAR(36) BINARY, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Reports`;
+
+DROP TABLE IF EXISTS `ReportExecutions`;
+
+CREATE TABLE IF NOT EXISTS `ReportExecutions` (`id` CHAR(36) BINARY , `status` ENUM('PENDING', 'RUNNING', 'COMPLETED', 'FAILED') DEFAULT 'PENDING', `resultUrl` VARCHAR(255), `executionTimeMs` INTEGER, `executedBy` CHAR(36) BINARY, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `reportId` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`reportId`) REFERENCES `Reports` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `ReportExecutions`;
+
+DROP TABLE IF EXISTS `Dashboards`;
+
+CREATE TABLE IF NOT EXISTS `Dashboards` (`id` CHAR(36) BINARY , `name` VARCHAR(255) NOT NULL, `layout` JSON, `isPublic` TINYINT(1) DEFAULT false, `createdBy` CHAR(36) BINARY, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+SHOW INDEX FROM `Dashboards`;
+
+DROP TABLE IF EXISTS `UserRoles`;
+
+CREATE TABLE IF NOT EXISTS `UserRoles` (`createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `userId` CHAR(36) BINARY , `roleId` CHAR(36) BINARY , PRIMARY KEY (`userId`, `roleId`), FOREIGN KEY (`userId`) REFERENCES `Users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (`roleId`) REFERENCES `Roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `UserRoles`;
+
+DROP TABLE IF EXISTS `RolePermissions`;
+
+CREATE TABLE IF NOT EXISTS `RolePermissions` (`createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `roleId` CHAR(36) BINARY , `permissionId` CHAR(36) BINARY , PRIMARY KEY (`roleId`, `permissionId`), FOREIGN KEY (`roleId`) REFERENCES `Roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (`permissionId`) REFERENCES `Permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `RolePermissions`;
+
+DROP TABLE IF EXISTS `ProductCollections`;
+
+CREATE TABLE IF NOT EXISTS `ProductCollections` (`createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `productId` CHAR(36) BINARY , `collectionId` CHAR(36) BINARY , PRIMARY KEY (`productId`, `collectionId`), FOREIGN KEY (`productId`) REFERENCES `Products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (`collectionId`) REFERENCES `Collections` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `ProductCollections`;
+
+DROP TABLE IF EXISTS `ProductTags`;
+
+CREATE TABLE IF NOT EXISTS `ProductTags` (`createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `productId` CHAR(36) BINARY , `tagId` CHAR(36) BINARY , PRIMARY KEY (`productId`, `tagId`), FOREIGN KEY (`productId`) REFERENCES `Products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (`tagId`) REFERENCES `Tags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE=InnoDB;
+
+SHOW INDEX FROM `ProductTags`;
+
+SET FOREIGN_KEY_CHECKS = 1;

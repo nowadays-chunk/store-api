@@ -1,0 +1,10 @@
+exports.getCampaigns = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getCampaignDetails = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getSegments = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getABTests = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getABTestResults = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getReferrals = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getLoyaltyProgram = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getLoyaltyPoints = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getGiftCards = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.lookupGiftCard = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };

@@ -1,0 +1,8 @@
+const express = require('express');
+const router = express.Router();
+const pmController = require('../controllers/pmController'); // Reusing
+
+router.get('/triggers', pmController.getAutomationTriggers);
+router.get('/actions', pmController.getAutomationActions);
+
+module.exports = router;

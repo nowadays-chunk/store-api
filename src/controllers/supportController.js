@@ -1,0 +1,11 @@
+exports.createTicket = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.listTickets = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getTicketDetails = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.replyToTicket = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.assignTicket = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.closeTicket = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getMacros = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getSLARules = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getQueues = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getEscalations = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+exports.getKnowledgeBase = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
