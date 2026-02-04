@@ -1,28 +1,91 @@
-const shippingController = {
-    getCarriers: async (req, res) => {
-        res.json({ carriers: ['UPS', 'FedEx', 'DHL', 'USPS'] });
-    },
+const shippingService = require('../services/shippingService');
 
-    getRates: async (req, res) => {
-        res.json({
-            rates: [
-                { carrier: 'UPS', service: 'Ground', rate: 10.00, days: 5 },
-                { carrier: 'FedEx', service: 'Express', rate: 25.00, days: 2 }
-            ]
-        });
-    },
-
-    createLabel: async (req, res) => {
-        res.json({ labelId: 'LBL-' + Date.now(), trackingNumber: 'TRK-' + Date.now() });
-    },
-
-    getLabel: async (req, res) => {
-        res.json({ labelUrl: 'https://example.com/label.pdf' });
-    },
-
-    schedulePickup: async (req, res) => {
-        res.json({ pickupId: 'PU-' + Date.now(), scheduledDate: new Date() });
+/**
+ * Get carriers
+ */
+exports.getCarriers = async (req, res, next) => {
+    try {
+        const carriers = await shippingService.getCarriers();
+        res.json(carriers);
+    } catch (error) {
+        next(error);
     }
 };
 
-module.exports = shippingController;
+/**
+ * Calculate shipping rates
+ */
+exports.calculateRates = async (req, res, next) => {
+    try {
+        const { orderId, destinationAddress } = req.body;
+        const rates = await shippingService.calculateRates(orderId, destinationAddress);
+        res.json(rates);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Create shipment
+ */
+exports.createShipment = async (req, res, next) => {
+    try {
+        const { orderId } = req.params;
+        const shipment = await shippingService.createShipment(orderId, req.body);
+        res.status(201).json(shipment);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Mark shipment as shipped
+ */
+exports.markShipped = async (req, res, next) => {
+    try {
+        const { shipmentId } = req.params;
+        const shipment = await shippingService.markShipped(shipmentId);
+        res.json(shipment);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Track shipment
+ */
+exports.trackShipment = async (req, res, next) => {
+    try {
+        const { trackingNumber } = req.params;
+        const tracking = await shippingService.trackShipment(trackingNumber);
+        res.json(tracking);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+};
+
+/**
+ * Schedule pickup
+ */
+exports.schedulePickup = async (req, res, next) => {
+    try {
+        const { shipmentIds, pickupDate } = req.body;
+        const result = await shippingService.schedulePickup(shipmentIds, pickupDate);
+        res.json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Cancel shipment
+ */
+exports.cancelShipment = async (req, res, next) => {
+    try {
+        const { shipmentId } = req.params;
+        const shipment = await shippingService.cancelShipment(shipmentId);
+        res.json(shipment);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};

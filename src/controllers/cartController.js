@@ -1,5 +1,8 @@
 const cartService = require('../services/cartService');
 
+/**
+ * Get user's cart
+ */
 exports.getCart = async (req, res, next) => {
     try {
         const cart = await cartService.getCart(req.user.id);
@@ -9,35 +12,57 @@ exports.getCart = async (req, res, next) => {
     }
 };
 
-exports.addItem = async (req, res, next) => {
+/**
+ * Add item to cart
+ */
+exports.addToCart = async (req, res, next) => {
     try {
-        const { productId, quantity } = req.body;
-        const cart = await cartService.addItem(req.user.id, productId, quantity);
+        const cart = await cartService.addToCart(req.user.id, req.body);
         res.json(cart);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 };
 
-exports.updateItem = async (req, res, next) => {
+/**
+ * Update cart item quantity
+ */
+exports.updateCartItem = async (req, res, next) => {
     try {
-        const { quantity } = req.body;
-        const cart = await cartService.updateItem(req.user.id, req.params.id, quantity);
+        const cart = await cartService.updateCartItem(req.user.id, req.params.itemId, req.body.quantity);
         res.json(cart);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 };
 
-exports.removeItem = async (req, res, next) => {
+/**
+ * Remove item from cart
+ */
+exports.removeFromCart = async (req, res, next) => {
     try {
-        const cart = await cartService.removeItem(req.user.id, req.params.id);
+        const cart = await cartService.removeFromCart(req.user.id, req.params.itemId);
         res.json(cart);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 };
 
+/**
+ * Clear cart
+ */
+exports.clearCart = async (req, res, next) => {
+    try {
+        await cartService.clearCart(req.user.id);
+        res.json({ message: 'Cart cleared' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Apply coupon to cart
+ */
 exports.applyCoupon = async (req, res, next) => {
     try {
         const { code } = req.body;
@@ -48,34 +73,14 @@ exports.applyCoupon = async (req, res, next) => {
     }
 };
 
+/**
+ * Remove coupon from cart
+ */
 exports.removeCoupon = async (req, res, next) => {
     try {
-        const cart = await cartService.applyCoupon(req.user.id, null);
+        const cart = await cartService.removeCoupon(req.user.id);
         res.json(cart);
     } catch (error) {
-        next(error);
-    }
-};
-
-exports.estimateShipping = async (req, res, next) => {
-    // Simple estimate
-    res.json({ shipping: 10.00, estimatedDays: 5 });
-};
-
-exports.validateCart = async (req, res, next) => {
-    try {
-        const cart = await cartService.getCart(req.user.id);
-        res.json({ valid: true, cart });
-    } catch (error) {
-        next(error);
-    }
-};
-
-exports.clearCart = async (req, res, next) => {
-    try {
-        const cart = await cartService.clearCart(req.user.id);
-        res.json(cart);
-    } catch (error) {
-        next(error);
+        res.status(400).json({ message: error.message });
     }
 };

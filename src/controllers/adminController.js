@@ -1,110 +1,126 @@
-// Admin User Management Controller
-const { User } = require('../models');
+const adminService = require('../services/adminService');
 
-const adminController = {
-    // User Management
-    getAllUsers: async (req, res, next) => {
-        try {
-            const users = await User.findAll({
-                attributes: { exclude: ['passwordHash'] },
-                order: [['createdAt', 'DESC']]
-            });
-            res.json(users);
-        } catch (error) {
-            next(error);
-        }
-    },
-
-    getUserById: async (req, res, next) => {
-        try {
-            const user = await User.findByPk(req.params.id, {
-                attributes: { exclude: ['passwordHash'] }
-            });
-            if (!user) return res.status(404).json({ message: 'User not found' });
-            res.json(user);
-        } catch (error) {
-            next(error);
-        }
-    },
-
-    updateUser: async (req, res, next) => {
-        try {
-            const user = await User.findByPk(req.params.id);
-            if (!user) return res.status(404).json({ message: 'User not found' });
-            await user.update(req.body);
-            res.json(user);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    deleteUser: async (req, res, next) => {
-        try {
-            const user = await User.findByPk(req.params.id);
-            if (!user) return res.status(404).json({ message: 'User not found' });
-            await user.destroy();
-            res.json({ message: 'User deleted' });
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    suspendUser: async (req, res, next) => {
-        try {
-            const user = await User.findByPk(req.params.id);
-            if (!user) return res.status(404).json({ message: 'User not found' });
-            user.isActive = false;
-            await user.save();
-            res.json({ message: 'User suspended', user });
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    activateUser: async (req, res, next) => {
-        try {
-            const user = await User.findByPk(req.params.id);
-            if (!user) return res.status(404).json({ message: 'User not found' });
-            user.isActive = true;
-            await user.save();
-            res.json({ message: 'User activated', user });
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    assignRole: async (req, res, next) => {
-        try {
-            const user = await User.findByPk(req.params.id);
-            if (!user) return res.status(404).json({ message: 'User not found' });
-            user.role = req.body.role;
-            await user.save();
-            res.json({ message: 'Role assigned', user });
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    getUserStats: async (req, res) => {
-        res.json({
-            totalUsers: 1000,
-            activeUsers: 850,
-            newThisMonth: 50
-        });
-    },
-
-    // Bulk Operations
-    bulkDeleteUsers: async (req, res) => {
-        res.json({ message: 'Users deleted', count: req.body.ids.length });
-    },
-
-    bulkUpdateUsers: async (req, res) => {
-        res.json({ message: 'Users updated', count: req.body.ids.length });
-    },
-
-    exportUsers: async (req, res) => {
-        res.json({ exportUrl: 'https://example.com/users-export.csv' });
+/**
+ * Get all users
+ */
+exports.getAllUsers = async (req, res, next) => {
+    try {
+        const result = await adminService.getAllUsers(req.query);
+        res.json(result);
+    } catch (error) {
+        next(error);
     }
 };
 
-module.exports = adminController;
+/**
+ * Suspend user
+ */
+exports.suspendUser = async (req, res, next) => {
+    try {
+        const { reason } = req.body;
+        const user = await adminService.suspendUser(req.params.id, reason);
+        res.json(user);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Activate user
+ */
+exports.activateUser = async (req, res, next) => {
+    try {
+        const user = await adminService.activateUser(req.params.id);
+        res.json(user);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Bulk import users
+ */
+exports.bulkImport = async (req, res, next) => {
+    try {
+        const { users } = req.body;
+        const result = await adminService.bulkImportUsers(users);
+        res.json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Bulk export users
+ */
+exports.bulkExport = async (req, res, next) => {
+    try {
+        const users = await adminService.bulkExportUsers(req.query);
+        res.json({ users });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Get user activity
+ */
+exports.getUserActivity = async (req, res, next) => {
+    try {
+        const activity = await adminService.getUserActivity(req.params.id);
+        res.json(activity);
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Reset user password
+ */
+exports.resetUserPassword = async (req, res, next) => {
+    try {
+        const { newPassword } = req.body;
+        const result = await adminService.resetUserPassword(req.params.id, newPassword);
+        res.json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Assign role to user
+ */
+exports.assignRole = async (req, res, next) => {
+    try {
+        const { roleId } = req.body;
+        const user = await adminService.assignRole(req.params.id, roleId);
+        res.json(user);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Remove role from user
+ */
+exports.removeRole = async (req, res, next) => {
+    try {
+        const { roleId } = req.body;
+        const user = await adminService.removeRole(req.params.id, roleId);
+        res.json(user);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Delete user
+ */
+exports.deleteUser = async (req, res, next) => {
+    try {
+        await adminService.deleteUser(req.params.id);
+        res.json({ message: 'User deleted' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};

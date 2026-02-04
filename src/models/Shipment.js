@@ -1,29 +1,62 @@
-const { Model } = require('sequelize');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-module.exports = (sequelize, DataTypes) => {
-    class Shipment extends Model {
-        static associate(models) {
-            Shipment.belongsTo(models.Order, { foreignKey: 'orderId', as: 'order' });
-            Shipment.belongsTo(models.Warehouse, { foreignKey: 'warehouseId', as: 'warehouse' });
-            Shipment.belongsTo(models.Shipper, { foreignKey: 'shipperId', as: 'shipper' });
+const Shipment = sequelize.define('Shipment', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    orderId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'orders',
+            key: 'id'
         }
+    },
+    carrier: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    service: {
+        type: DataTypes.STRING
+    },
+    trackingNumber: {
+        type: DataTypes.STRING,
+        unique: true
+    },
+    labelUrl: {
+        type: DataTypes.STRING
+    },
+    cost: {
+        type: DataTypes.DECIMAL(10, 2)
+    },
+    weight: {
+        type: DataTypes.DECIMAL(10, 2)
+    },
+    status: {
+        type: DataTypes.ENUM('CREATED', 'PICKED_UP', 'IN_TRANSIT', 'OUT_FOR_DELIVERY', 'DELIVERED', 'FAILED', 'CANCELLED'),
+        defaultValue: 'CREATED'
+    },
+    shippingAddress: {
+        type: DataTypes.JSON
+    },
+    pickupScheduledAt: {
+        type: DataTypes.DATE
+    },
+    shippedAt: {
+        type: DataTypes.DATE
+    },
+    deliveredAt: {
+        type: DataTypes.DATE
+    },
+    cancelledAt: {
+        type: DataTypes.DATE
     }
+}, {
+    tableName: 'shipments',
+    timestamps: true
+});
 
-    Shipment.init({
-        id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-        trackingNumber: DataTypes.STRING,
-        carrier: DataTypes.STRING,
-        status: {
-            type: DataTypes.ENUM('PENDING', 'SHIPPED', 'IN_TRANSIT', 'DELIVERED', 'FAILED'),
-            defaultValue: 'PENDING'
-        },
-        shippedDate: DataTypes.DATE,
-        estimatedDeliveryDate: DataTypes.DATE,
-        labelUrl: DataTypes.STRING
-    }, {
-        sequelize,
-        modelName: 'Shipment',
-    });
-
-    return Shipment;
-};
+module.exports = Shipment;

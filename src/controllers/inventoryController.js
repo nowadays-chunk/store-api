@@ -1,143 +1,150 @@
-const { Inventory, Warehouse } = require('../models/Inventory');
-const { Product } = require('../models');
+const inventoryService = require('../services/inventoryService');
 
-const inventoryController = {
-    getInventoryOverview: async (req, res, next) => {
-        try {
-            const inventory = await Inventory.findAll({
-                include: [
-                    { model: Product, as: 'product' },
-                    { model: Warehouse, as: 'warehouse' }
-                ]
-            });
-            res.json(inventory);
-        } catch (error) {
-            next(error);
-        }
-    },
-
-    getProductInventory: async (req, res, next) => {
-        try {
-            const inventory = await Inventory.findAll({
-                where: { productId: req.params.variantId },
-                include: [{ model: Warehouse, as: 'warehouse' }]
-            });
-            res.json(inventory);
-        } catch (error) {
-            next(error);
-        }
-    },
-
-    adjustStock: async (req, res, next) => {
-        try {
-            const { quantity, warehouseId } = req.body;
-            let inventory = await Inventory.findOne({
-                where: { productId: req.params.variantId, warehouseId }
-            });
-
-            if (!inventory) {
-                inventory = await Inventory.create({
-                    productId: req.params.variantId,
-                    warehouseId,
-                    quantity
-                });
-            } else {
-                inventory.quantity += quantity;
-                await inventory.save();
-            }
-
-            res.json(inventory);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    transferStock: async (req, res, next) => {
-        try {
-            const { fromWarehouseId, toWarehouseId, productId, quantity } = req.body;
-
-            // Decrease from source
-            const fromInv = await Inventory.findOne({
-                where: { productId, warehouseId: fromWarehouseId }
-            });
-            if (!fromInv || fromInv.available < quantity) {
-                return res.status(400).json({ message: 'Insufficient stock' });
-            }
-            fromInv.quantity -= quantity;
-            await fromInv.save();
-
-            // Increase at destination
-            let toInv = await Inventory.findOne({
-                where: { productId, warehouseId: toWarehouseId }
-            });
-            if (!toInv) {
-                toInv = await Inventory.create({ productId, warehouseId: toWarehouseId, quantity });
-            } else {
-                toInv.quantity += quantity;
-                await toInv.save();
-            }
-
-            res.json({ message: 'Stock transferred', from: fromInv, to: toInv });
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    getInventoryHistory: async (req, res) => {
-        res.json({ history: [] });
-    },
-
-    getReservations: async (req, res) => {
-        res.json({ reservations: [] });
-    },
-
-    reserveStock: async (req, res) => {
-        res.json({ message: 'Stock reserved' });
-    },
-
-    releaseStock: async (req, res) => {
-        res.json({ message: 'Stock released' });
-    },
-
-    getForecast: async (req, res) => {
-        res.json({ forecast: { nextMonth: 1000, trend: 'increasing' } });
-    },
-
-    getReorderSuggestions: async (req, res) => {
-        res.json({ suggestions: [] });
-    },
-
-    createReorder: async (req, res) => {
-        res.json({ message: 'Reorder created', id: Date.now() });
-    },
-
-    getStockAging: async (req, res) => {
-        res.json({ aging: [] });
-    },
-
-    getShrinkage: async (req, res) => {
-        res.json({ shrinkage: 0.5 });
-    },
-
-    startStockCount: async (req, res) => {
-        res.json({ countId: 'CNT-' + Date.now() });
-    },
-
-    submitStockCount: async (req, res) => {
-        res.json({ message: 'Count submitted' });
-    },
-
-    getCountHistory: async (req, res) => {
-        res.json({ history: [] });
-    },
-
-    lockStock: async (req, res) => {
-        res.json({ message: 'Stock locked' });
-    },
-
-    unlockStock: async (req, res) => {
-        res.json({ message: 'Stock unlocked' });
+/**
+ * Get inventory for product
+ */
+exports.getInventory = async (req, res, next) => {
+    try {
+        const { productId } = req.params;
+        const inventory = await inventoryService.getInventory(productId);
+        res.json(inventory);
+    } catch (error) {
+        next(error);
     }
 };
 
-module.exports = inventoryController;
+/**
+ * Adjust stock
+ */
+exports.adjustStock = async (req, res, next) => {
+    try {
+        const { productId, warehouseId, quantity, reason } = req.body;
+        const inventory = await inventoryService.adjustStock(productId, warehouseId, quantity, reason);
+        res.json(inventory);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Transfer stock
+ */
+exports.transferStock = async (req, res, next) => {
+    try {
+        const { productId, fromWarehouseId, toWarehouseId, quantity } = req.body;
+        const result = await inventoryService.transferStock(productId, fromWarehouseId, toWarehouseId, quantity);
+        res.json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Reserve inventory
+ */
+exports.reserveInventory = async (req, res, next) => {
+    try {
+        const { productId, quantity, orderId } = req.body;
+        const inventory = await inventoryService.reserveInventory(productId, quantity, orderId);
+        res.json(inventory);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Get low stock products
+ */
+exports.getLowStock = async (req, res, next) => {
+    try {
+        const { threshold } = req.query;
+        const products = await inventoryService.getLowStockProducts(parseInt(threshold) || 10);
+        res.json({ products });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Get stock movements
+ */
+exports.getStockMovements = async (req, res, next) => {
+    try {
+        const { productId } = req.params;
+        const movements = await inventoryService.getStockMovements(productId, req.query);
+        res.json({ movements });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Forecast inventory
+ */
+exports.forecastInventory = async (req, res, next) => {
+    try {
+        const { productId } = req.params;
+        const { days } = req.query;
+        const forecast = await inventoryService.forecastInventory(productId, parseInt(days) || 30);
+        res.json(forecast);
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Get all inventory
+ */
+exports.getAllInventory = async (req, res, next) => {
+    try {
+        const inventory = await Inventory.findAll({
+            include: [
+                { model: Product, as: 'product' },
+                { model: Warehouse, as: 'warehouse' }
+            ]
+        });
+        res.json({ inventory });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Get out of stock products
+ */
+exports.getOutOfStock = async (req, res, next) => {
+    try {
+        const products = await inventoryService.getLowStockProducts(0);
+        res.json({ products });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Bulk update inventory
+ */
+exports.bulkUpdate = async (req, res, next) => {
+    try {
+        const { updates } = req.body;
+        const results = [];
+
+        for (const update of updates) {
+            try {
+                const inventory = await inventoryService.adjustStock(
+                    update.productId,
+                    update.warehouseId,
+                    update.quantity,
+                    'Bulk update'
+                );
+                results.push({ success: true, inventory });
+            } catch (error) {
+                results.push({ success: false, error: error.message });
+            }
+        }
+
+        res.json({ results });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};

@@ -1,67 +1,86 @@
-const { Notification } = require('../models');
+const notificationService = require('../services/notificationService');
 
-const notificationController = {
-    getNotifications: async (req, res, next) => {
-        try {
-            const notifications = await Notification.findAll({
-                where: { userId: req.user.id },
-                order: [['createdAt', 'DESC']],
-                limit: 50
-            });
-            res.json(notifications);
-        } catch (error) {
-            next(error);
-        }
-    },
-
-    markAsRead: async (req, res, next) => {
-        try {
-            const notification = await Notification.findOne({
-                where: { id: req.params.id, userId: req.user.id }
-            });
-            if (!notification) return res.status(404).json({ message: 'Notification not found' });
-            notification.isRead = true;
-            notification.readAt = new Date();
-            await notification.save();
-            res.json(notification);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    markAllAsRead: async (req, res, next) => {
-        try {
-            await Notification.update(
-                { isRead: true, readAt: new Date() },
-                { where: { userId: req.user.id, isRead: false } }
-            );
-            res.json({ message: 'All notifications marked as read' });
-        } catch (error) {
-            next(error);
-        }
-    },
-
-    deleteNotification: async (req, res, next) => {
-        try {
-            await Notification.destroy({
-                where: { id: req.params.id, userId: req.user.id }
-            });
-            res.json({ message: 'Notification deleted' });
-        } catch (error) {
-            next(error);
-        }
-    },
-
-    getUnreadCount: async (req, res, next) => {
-        try {
-            const count = await Notification.count({
-                where: { userId: req.user.id, isRead: false }
-            });
-            res.json({ count });
-        } catch (error) {
-            next(error);
-        }
+/**
+ * Get user notifications
+ */
+exports.getNotifications = async (req, res, next) => {
+    try {
+        const result = await notificationService.getUserNotifications(req.user.id, req.query);
+        res.json(result);
+    } catch (error) {
+        next(error);
     }
 };
 
-module.exports = notificationController;
+/**
+ * Mark notification as read
+ */
+exports.markAsRead = async (req, res, next) => {
+    try {
+        const notification = await notificationService.markAsRead(req.params.id);
+        res.json(notification);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Mark all as read
+ */
+exports.markAllAsRead = async (req, res, next) => {
+    try {
+        const result = await notificationService.markAllAsRead(req.user.id);
+        res.json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Delete notification
+ */
+exports.deleteNotification = async (req, res, next) => {
+    try {
+        const result = await notificationService.deleteNotification(req.params.id);
+        res.json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Get unread count
+ */
+exports.getUnreadCount = async (req, res, next) => {
+    try {
+        const result = await notificationService.getUnreadCount(req.user.id);
+        res.json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Send push notification (admin)
+ */
+exports.sendPush = async (req, res, next) => {
+    try {
+        const { userId, message } = req.body;
+        const result = await notificationService.sendPushNotification(userId, message);
+        res.json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Broadcast notification (admin)
+ */
+exports.broadcast = async (req, res, next) => {
+    try {
+        const result = await notificationService.broadcastNotification(req.body);
+        res.json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};

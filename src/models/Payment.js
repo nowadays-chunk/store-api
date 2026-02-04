@@ -1,28 +1,69 @@
-const { Model } = require('sequelize');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-module.exports = (sequelize, DataTypes) => {
-    class Payment extends Model {
-        static associate(models) {
-            Payment.belongsTo(models.Order, { foreignKey: 'orderId', as: 'order' });
-            Payment.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+const Payment = sequelize.define('Payment', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    orderId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'orders',
+            key: 'id'
         }
+    },
+    amount: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false
+    },
+    currency: {
+        type: DataTypes.STRING(3),
+        defaultValue: 'USD'
+    },
+    method: {
+        type: DataTypes.ENUM('credit_card', 'debit_card', 'paypal', 'stripe', 'bank_transfer'),
+        allowNull: false
+    },
+    status: {
+        type: DataTypes.ENUM('PENDING', 'AUTHORIZED', 'COMPLETED', 'FAILED', 'REFUNDED', 'PARTIALLY_REFUNDED', 'VOIDED'),
+        defaultValue: 'PENDING'
+    },
+    transactionId: {
+        type: DataTypes.STRING,
+        unique: true
+    },
+    parentPaymentId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'payments',
+            key: 'id'
+        }
+    },
+    refundedAmount: {
+        type: DataTypes.DECIMAL(10, 2),
+        defaultValue: 0
+    },
+    refundReason: {
+        type: DataTypes.TEXT
+    },
+    metadata: {
+        type: DataTypes.JSON
+    },
+    processedAt: {
+        type: DataTypes.DATE
+    },
+    capturedAt: {
+        type: DataTypes.DATE
+    },
+    voidedAt: {
+        type: DataTypes.DATE
     }
+}, {
+    tableName: 'payments',
+    timestamps: true
+});
 
-    Payment.init({
-        id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-        amount: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
-        currency: { type: DataTypes.STRING, defaultValue: 'USD' },
-        provider: DataTypes.STRING, // e.g., 'stripe', 'paypal'
-        status: {
-            type: DataTypes.ENUM('PENDING', 'COMPLETED', 'FAILED', 'REFUNDED'),
-            defaultValue: 'PENDING'
-        },
-        transactionId: DataTypes.STRING,
-        paymentMethodJson: DataTypes.JSON // Details about card/method
-    }, {
-        sequelize,
-        modelName: 'Payment',
-    });
-
-    return Payment;
-};
+module.exports = Payment;

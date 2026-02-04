@@ -1,28 +1,78 @@
-const { Model } = require('sequelize');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-module.exports = (sequelize, DataTypes) => {
-    class StockMovement extends Model {
-        static associate(models) {
-            StockMovement.belongsTo(models.ProductVariant, { foreignKey: 'variantId', as: 'variant' });
-            StockMovement.belongsTo(models.Warehouse, { foreignKey: 'warehouseId', as: 'warehouse' });
-            StockMovement.belongsTo(models.User, { foreignKey: 'userId', as: 'user' }); // Who made the move
+const StockMovement = sequelize.define('StockMovement', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    productId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'products',
+            key: 'id'
+        }
+    },
+    warehouseId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'warehouses',
+            key: 'id'
+        }
+    },
+    type: {
+        type: DataTypes.ENUM(
+            'PURCHASE', 'SALE', 'RETURN', 'ADJUSTMENT_IN', 'ADJUSTMENT_OUT',
+            'TRANSFER_IN', 'TRANSFER_OUT', 'RESERVED', 'RELEASED', 'DAMAGED', 'LOST'
+        ),
+        allowNull: false
+    },
+    quantity: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    previousQuantity: {
+        type: DataTypes.INTEGER
+    },
+    newQuantity: {
+        type: DataTypes.INTEGER
+    },
+    orderId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'orders',
+            key: 'id'
+        }
+    },
+    fromWarehouseId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'warehouses',
+            key: 'id'
+        }
+    },
+    toWarehouseId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'warehouses',
+            key: 'id'
+        }
+    },
+    reason: {
+        type: DataTypes.TEXT
+    },
+    userId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'users',
+            key: 'id'
         }
     }
+}, {
+    tableName: 'stock_movements',
+    timestamps: true
+});
 
-    StockMovement.init({
-        id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-        quantity: { type: DataTypes.INTEGER, allowNull: false },
-        type: {
-            type: DataTypes.ENUM('IN', 'OUT', 'ADJUSTMENT', 'TRANSFER', 'RETURN'),
-            allowNull: false
-        },
-        reason: DataTypes.STRING,
-        referenceId: DataTypes.STRING, // OrderID or TransferID
-        notes: DataTypes.TEXT
-    }, {
-        sequelize,
-        modelName: 'StockMovement',
-    });
-
-    return StockMovement;
-};
+module.exports = StockMovement;

@@ -1,59 +1,67 @@
-const { Coupon } = require('../models');
+const couponService = require('../services/couponService');
 
-const couponController = {
-    createCoupon: async (req, res, next) => {
-        try {
-            const coupon = await Coupon.create(req.body);
-            res.status(201).json(coupon);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    updateCoupon: async (req, res, next) => {
-        try {
-            const coupon = await Coupon.findByPk(req.params.id);
-            if (!coupon) return res.status(404).json({ message: 'Coupon not found' });
-            await coupon.update(req.body);
-            res.json(coupon);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    deleteCoupon: async (req, res, next) => {
-        try {
-            const coupon = await Coupon.findByPk(req.params.id);
-            if (!coupon) return res.status(404).json({ message: 'Coupon not found' });
-            await coupon.destroy();
-            res.json({ message: 'Coupon deleted' });
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    validateCoupon: async (req, res, next) => {
-        try {
-            const { code } = req.body;
-            const coupon = await Coupon.findOne({ where: { code, isActive: true } });
-
-            if (!coupon) {
-                return res.status(404).json({ valid: false, message: 'Invalid coupon code' });
-            }
-
-            if (coupon.expiresAt && new Date(coupon.expiresAt) < new Date()) {
-                return res.status(400).json({ valid: false, message: 'Coupon expired' });
-            }
-
-            if (coupon.usageLimit && coupon.usageCount >= coupon.usageLimit) {
-                return res.status(400).json({ valid: false, message: 'Coupon usage limit reached' });
-            }
-
-            res.json({ valid: true, coupon });
-        } catch (error) {
-            next(error);
-        }
+exports.getAllCoupons = async (req, res, next) => {
+    try {
+        const result = await couponService.getAllCoupons(req.query);
+        res.json(result);
+    } catch (error) {
+        next(error);
     }
 };
 
-module.exports = couponController;
+exports.getCouponById = async (req, res, next) => {
+    try {
+        const coupon = await Coupon.findByPk(req.params.id);
+        if (!coupon) return res.status(404).json({ message: 'Coupon not found' });
+        res.json(coupon);
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.createCoupon = async (req, res, next) => {
+    try {
+        const coupon = await couponService.createCoupon(req.body);
+        res.status(201).json(coupon);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.updateCoupon = async (req, res, next) => {
+    try {
+        const coupon = await couponService.updateCoupon(req.params.id, req.body);
+        res.json(coupon);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.deleteCoupon = async (req, res, next) => {
+    try {
+        const result = await couponService.deleteCoupon(req.params.id);
+        res.json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.validateCoupon = async (req, res, next) => {
+    try {
+        const { code } = req.body;
+        const coupon = await couponService.validateCoupon(code);
+        res.json(coupon);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.applyCoupon = async (req, res, next) => {
+    try {
+        const { code, cartTotal } = req.body;
+        const result = await couponService.applyCoupon(code, cartTotal);
+        res.json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};

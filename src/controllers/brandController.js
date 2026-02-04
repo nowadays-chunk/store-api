@@ -1,56 +1,55 @@
-const { Brand, Product } = require('../models');
+const brandService = require('../services/brandService');
 
-const brandController = {
-    getAllBrands: async (req, res, next) => {
-        try {
-            const brands = await Brand.findAll();
-            res.json(brands);
-        } catch (error) {
-            next(error);
-        }
-    },
-
-    createBrand: async (req, res, next) => {
-        try {
-            const brand = await Brand.create(req.body);
-            res.status(201).json(brand);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    updateBrand: async (req, res, next) => {
-        try {
-            const brand = await Brand.findByPk(req.params.id);
-            if (!brand) return res.status(404).json({ message: 'Brand not found' });
-            await brand.update(req.body);
-            res.json(brand);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    deleteBrand: async (req, res, next) => {
-        try {
-            const brand = await Brand.findByPk(req.params.id);
-            if (!brand) return res.status(404).json({ message: 'Brand not found' });
-            await brand.destroy();
-            res.json({ message: 'Brand deleted' });
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    getBrandProducts: async (req, res, next) => {
-        try {
-            const products = await Product.findAll({
-                where: { brandId: req.params.id, status: 'active' }
-            });
-            res.json(products);
-        } catch (error) {
-            next(error);
-        }
+exports.getAllBrands = async (req, res, next) => {
+    try {
+        const result = await brandService.getAllBrands(req.query);
+        res.json(result);
+    } catch (error) {
+        next(error);
     }
 };
 
-module.exports = brandController;
+exports.getBrandById = async (req, res, next) => {
+    try {
+        const brand = await brandService.getBrandById(req.params.id);
+        res.json(brand);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+};
+
+exports.createBrand = async (req, res, next) => {
+    try {
+        const brand = await brandService.createBrand(req.body);
+        res.status(201).json(brand);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.updateBrand = async (req, res, next) => {
+    try {
+        const brand = await brandService.updateBrand(req.params.id, req.body);
+        res.json(brand);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.deleteBrand = async (req, res, next) => {
+    try {
+        const result = await brandService.deleteBrand(req.params.id);
+        res.json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.getBrandProducts = async (req, res, next) => {
+    try {
+        const products = await brandService.getBrandProducts(req.params.id);
+        res.json({ products });
+    } catch (error) {
+        next(error);
+    }
+};

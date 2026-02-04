@@ -1,11 +1,64 @@
-exports.getDashboards = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.createDashboard = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.getDashboardById = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.updateDashboard = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.deleteDashboard = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.addWidget = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.updateWidget = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.deleteWidget = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.getPermissions = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.updatePermissions = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.cloneDashboard = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+const dashboardService = require('../services/dashboardService');
+
+/**
+ * Get dashboard overview
+ */
+exports.getOverview = async (req, res, next) => {
+    try {
+        const overview = await dashboardService.getOverview();
+        res.json(overview);
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Get sales chart data
+ */
+exports.getSalesChart = async (req, res, next) => {
+    try {
+        const { days } = req.query;
+        const chartData = await dashboardService.getSalesChart(parseInt(days) || 30);
+        res.json({ chartData });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Get top products
+ */
+exports.getTopProducts = async (req, res, next) => {
+    try {
+        const { limit } = req.query;
+        const products = await dashboardService.getTopProducts(parseInt(limit) || 10);
+        res.json({ products });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Get recent orders
+ */
+exports.getRecentOrders = async (req, res, next) => {
+    try {
+        const { limit } = req.query;
+        const orders = await dashboardService.getRecentOrders(parseInt(limit) || 10);
+        res.json({ orders });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Get order status distribution
+ */
+exports.getOrderStatusDistribution = async (req, res, next) => {
+    try {
+        const distribution = await dashboardService.getOrderStatusDistribution();
+        res.json({ distribution });
+    } catch (error) {
+        next(error);
+    }
+};

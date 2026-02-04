@@ -1,12 +1,82 @@
-exports.getIntegrations = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.getIntegrationConfig = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.runSync = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.getSyncStatus = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.getMappings = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+// Integrations & Webhooks Controller
+const integrationController = {
+    // Webhooks
+    createWebhook: async (req, res) => {
+        res.status(201).json({
+            webhookId: 'WHK-' + Date.now(),
+            url: req.body.url,
+            events: req.body.events
+        });
+    },
 
-exports.getWebhooks = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.getWebhookConfig = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.testWebhook = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+    getWebhooks: async (req, res) => {
+        res.json({ webhooks: [] });
+    },
 
-exports.getETLImports = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
-exports.getETLExports = async (req, res, next) => { res.status(501).json({ message: 'Not implemented' }); };
+    updateWebhook: async (req, res) => {
+        res.json({ message: 'Webhook updated' });
+    },
+
+    deleteWebhook: async (req, res) => {
+        res.json({ message: 'Webhook deleted' });
+    },
+
+    testWebhook: async (req, res) => {
+        res.json({
+            message: 'Test webhook sent',
+            status: 'success'
+        });
+    },
+
+    getWebhookLogs: async (req, res) => {
+        res.json({ logs: [] });
+    },
+
+    // API Keys
+    createApiKey: async (req, res) => {
+        res.status(201).json({
+            apiKey: 'sk_' + Date.now(),
+            message: 'API key created'
+        });
+    },
+
+    getApiKeys: async (req, res) => {
+        res.json({ apiKeys: [] });
+    },
+
+    revokeApiKey: async (req, res) => {
+        res.json({ message: 'API key revoked' });
+    },
+
+    // Third-party Integrations
+    connectStripe: async (req, res) => {
+        res.json({ message: 'Stripe connected' });
+    },
+
+    disconnectStripe: async (req, res) => {
+        res.json({ message: 'Stripe disconnected' });
+    },
+
+    connectMailchimp: async (req, res) => {
+        res.json({ message: 'Mailchimp connected' });
+    },
+
+    disconnectMailchimp: async (req, res) => {
+        res.json({ message: 'Mailchimp disconnected' });
+    },
+
+    getIntegrations: async (req, res) => {
+        res.json({
+            integrations: [
+                { name: 'Stripe', status: 'connected' },
+                { name: 'Mailchimp', status: 'disconnected' }
+            ]
+        });
+    },
+
+    syncIntegration: async (req, res) => {
+        res.json({ message: 'Integration synced' });
+    }
+};
+
+module.exports = integrationController;

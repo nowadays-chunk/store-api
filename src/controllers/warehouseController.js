@@ -1,81 +1,64 @@
-const { Warehouse } = require('../models/Inventory');
+const warehouseService = require('../services/warehouseService');
 
-const warehouseController = {
-    getAllWarehouses: async (req, res, next) => {
-        try {
-            const warehouses = await Warehouse.findAll();
-            res.json(warehouses);
-        } catch (error) {
-            next(error);
-        }
-    },
-
-    createWarehouse: async (req, res, next) => {
-        try {
-            const warehouse = await Warehouse.create(req.body);
-            res.status(201).json(warehouse);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    updateWarehouse: async (req, res, next) => {
-        try {
-            const warehouse = await Warehouse.findByPk(req.params.id);
-            if (!warehouse) return res.status(404).json({ message: 'Warehouse not found' });
-            await warehouse.update(req.body);
-            res.json(warehouse);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    deleteWarehouse: async (req, res, next) => {
-        try {
-            const warehouse = await Warehouse.findByPk(req.params.id);
-            if (!warehouse) return res.status(404).json({ message: 'Warehouse not found' });
-            await warehouse.destroy();
-            res.json({ message: 'Warehouse deleted' });
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    getWarehouseStock: async (req, res) => {
-        res.json({ stock: [] });
-    },
-
-    adjustWarehouseStock: async (req, res) => {
-        res.json({ message: 'Stock adjusted' });
-    },
-
-    getPicklists: async (req, res) => {
-        res.json({ picklists: [] });
-    },
-
-    createPicklist: async (req, res) => {
-        res.json({ picklistId: 'PL-' + Date.now() });
-    },
-
-    updatePicklist: async (req, res) => {
-        res.json({ message: 'Picklist updated' });
-    },
-
-    packOrder: async (req, res) => {
-        res.json({ message: 'Order packed' });
-    },
-
-    shipOrder: async (req, res) => {
-        res.json({ message: 'Order shipped', trackingNumber: 'TRK-' + Date.now() });
-    },
-
-    getWarehouseMetrics: async (req, res) => {
-        res.json({
-            totalItems: 5000,
-            utilizationRate: 75.5,
-            pickingEfficiency: 92.3
-        });
+exports.getAllWarehouses = async (req, res, next) => {
+    try {
+        const warehouses = await warehouseService.getAllWarehouses();
+        res.json({ warehouses });
+    } catch (error) {
+        next(error);
     }
 };
 
-module.exports = warehouseController;
+exports.getWarehouseById = async (req, res, next) => {
+    try {
+        const warehouse = await warehouseService.getWarehouseById(req.params.id);
+        res.json(warehouse);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+};
+
+exports.createWarehouse = async (req, res, next) => {
+    try {
+        const warehouse = await warehouseService.createWarehouse(req.body);
+        res.status(201).json(warehouse);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.updateWarehouse = async (req, res, next) => {
+    try {
+        const warehouse = await warehouseService.updateWarehouse(req.params.id, req.body);
+        res.json(warehouse);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.deleteWarehouse = async (req, res, next) => {
+    try {
+        const result = await warehouseService.deleteWarehouse(req.params.id);
+        res.json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.getWarehouseInventory = async (req, res, next) => {
+    try {
+        const inventory = await warehouseService.getWarehouseInventory(req.params.id);
+        res.json({ inventory });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getWarehouseCapacity = async (req, res, next) => {
+    try {
+        const capacity = await warehouseService.getWarehouseCapacity(req.params.id);
+        res.json(capacity);
+    } catch (error) {
+        next(error);
+    }
+};
